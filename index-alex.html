@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Muster · AI mailer for internal policy questions</title>
+<meta name="description" content="Muster connects a shared Outlook inbox to SharePoint policy documents and automatically answers employee questions — or keeps a human in the loop when you prefer that control."/>
+<style>
+/* ─── Reset ─────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;border:0}
+html{font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ol,ul{list-style:none}
+
+/* ─── Tokens ─────────────────────────────────────────── */
+:root{
+  --green:#00a86e;
+  --green-dark:#008a5a;
+  --green-deep:#075c3d;
+  --accent:#f59e0b;
+  --green-light:#d8f3e4;
+  --green-mid:#9cdcb9;
+  --green-xlight:#ecfaf2;
+  --bg:#fff;
+  --bg-soft:#f8fafc;
+  --bg-muted:#f1f5f9;
+  --bg-sunken:#e2e8f0;
+  --border:#e2e8f0;
+  --border-strong:#cbd5e1;
+  --fg:#0f172a;
+  --fg-muted:#475569;
+  --fg-subtle:#94a3b8;
+  --shadow-sm:0 1px 3px #0f172a0d,0 1px 2px #0f172a0a;
+  --shadow-md:0 4px 12px #0f172a0f,0 1px 3px #0f172a0a;
+  --shadow-lg:0 12px 32px #0f172a14,0 2px 8px #0f172a0a;
+  --r:10px;
+}
+
+@media(prefers-color-scheme:dark){
+  :root{
+    --green:#10a86e;
+    --green-dark:#0d8a59;
+    --green-deep:#a3e3c5;
+    --green-light:#103325;
+    --green-mid:#1d5a3d;
+    --green-xlight:#0c2017;
+    --bg:#1a1d23;
+    --bg-soft:#21252c;
+    --bg-muted:#2a2f37;
+    --bg-sunken:#13161b;
+    --border:#2e333c;
+    --border-strong:#3d434d;
+    --fg:#e8eaed;
+    --fg-muted:#9aa1ad;
+    --fg-subtle:#6b7280;
+  }
+}
+
+/* ─── Layout ─────────────────────────────────────────── */
+.wrap{max-width:1100px;margin-inline:auto;padding-inline:24px}
+.wrap--narrow{max-width:760px;margin-inline:auto;padding-inline:24px}
+section{padding-block:80px}
+@media(max-width:640px){section{padding-block:52px}.wrap,.wrap--narrow{padding-inline:16px}}
+
+/* ─── Nav ────────────────────────────────────────────── */
+nav{
+  position:sticky;top:0;z-index:40;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  height:56px;display:flex;align-items:center;
+}
+@media(prefers-color-scheme:dark){nav{background:rgba(26,29,35,.88)}}
+.nav-inner{
+  width:100%;max-width:1100px;margin-inline:auto;padding-inline:24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:var(--fg)}
+.nav-logo-dot{width:10px;height:10px;border-radius:999px;background:var(--green);animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 #00a86e80}50%{box-shadow:0 0 0 6px #00a86e00}}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-links a{font-size:13.5px;color:var(--fg-muted)}
+.nav-links a:hover{color:var(--fg)}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  height:36px;padding-inline:16px;border-radius:8px;
+  font-size:13.5px;font-weight:500;cursor:pointer;
+  transition:background .15s,color .15s;
+}
+.btn--primary{background:var(--accent);color:#fff}
+.btn--primary:hover{background:#d97706}
+.btn--ghost{background:transparent;color:var(--fg-muted);border:1px solid var(--border)}
+.btn--ghost:hover{background:var(--bg-muted);color:var(--fg)}
+@media(max-width:640px){.nav-links{display:none}}
+
+/* ─── Hero ───────────────────────────────────────────── */
+#top{
+  padding-top:100px;padding-bottom:80px;
+  background:linear-gradient(var(--green-xlight),transparent 34%),
+             linear-gradient(90deg,transparent,var(--bg-soft),transparent);
+  text-align:center;
+}
+.hero-overline{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--green-light);color:var(--green-deep);
+  border:1px solid var(--green-mid);border-radius:999px;
+  font-size:11.5px;font-weight:500;padding:0 10px;height:22px;
+  margin-bottom:24px;
+}
+.hero-overline .dot{width:6px;height:6px;border-radius:999px;background:var(--green)}
+h1{font-size:clamp(32px,6vw,52px);line-height:1.1;font-weight:600;letter-spacing:-.02em;color:var(--fg);max-width:800px;margin-inline:auto}
+.hero-sub{margin-top:20px;font-size:17px;line-height:1.6;color:var(--fg-muted);max-width:620px;margin-inline:auto}
+.hero-cta{margin-top:32px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.hero-badges{margin-top:36px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--fg-subtle)}
+.badge svg{width:14px;height:14px;color:var(--green)}
+
+/* ─── Section headings ───────────────────────────────── */
+.sec-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:10px}
+.sec-title{font-size:clamp(22px,3.5vw,30px);font-weight:600;line-height:1.2;color:var(--fg)}
+.sec-body{margin-top:12px;font-size:15px;line-height:1.65;color:var(--fg-muted);max-width:560px}
+.sec-head{margin-bottom:48px}
+.sec-head--center{text-align:center}
+.sec-head--center .sec-body{margin-inline:auto}
+
+/* ─── Cards / grid ───────────────────────────────────── */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:900px){.grid-3{grid-template-columns:repeat(2,1fr)}.grid-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+.card{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--r);padding:24px;
+  box-shadow:var(--shadow-sm);
+}
+.card-icon{width:36px;height:36px;border-radius:8px;background:var(--green-xlight);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.card-icon svg{width:18px;height:18px;color:var(--green)}
+.card h3{font-size:15px;font-weight:600;color:var(--fg);margin-bottom:6px}
+.card p{font-size:13.5px;line-height:1.6;color:var(--fg-muted)}
+
+/* ─── Chip ───────────────────────────────────────────── */
+.chip{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;font-size:11.5px;font-weight:500;border:1px solid transparent}
+.chip--green{background:var(--green-light);color:var(--green-deep);border-color:var(--green-mid)}
+.chip--gray{background:var(--bg-muted);color:var(--fg-muted);border-color:var(--border-strong)}
+.chip--amber{background:#fef3c7;color:#92400e;border-color:#fde68a}
+.chip--blue{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+
+/* ─── Problem section ────────────────────────────────── */
+#problem{background:var(--bg-soft)}
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.problem-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.problem-grid{grid-template-columns:1fr}}
+.problem-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:20px;position:relative;overflow:hidden}
+.problem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.problem-card--red::before{background:#ef4444}
+.problem-card--amber::before{background:#f59e0b}
+.problem-card--blue::before{background:#3b82f6}
+.problem-card--green::before{background:var(--green)}
+.problem-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.problem-label--red{color:#b91c1c}
+.problem-label--amber{color:#92400e}
+.problem-label--blue{color:#1d4ed8}
+.problem-label--green{color:var(--green-deep)}
+.problem-card h3{font-size:14px;font-weight:600;color:var(--fg);margin-bottom:6px}
+.problem-card p{font-size:13px;line-height:1.6;color:var(--fg-muted)}
+
+/* ─── Product bullets ────────────────────────────────── */
+.product-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+@media(max-width:800px){.product-layout{grid-template-columns:1fr;gap:40px}}
+.product-bullets{display:flex;flex-direction:column;gap:18px}
+.product-bullet{display:flex;gap:14px;align-items:flex-start}
+.bullet-num{width:28px;height:28px;border-radius:8px;background:var(--green-xlight);border:1px solid var(--green-mid);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--green-deep);flex-shrink:0;margin-top:2px}
+.bullet-text h4{font-size:14px;font-weight:600;color:var(--fg);margin-bottom:3px}
+.bullet-text p{font-size:13px;line-height:1.55;color:var(--fg-muted)}
+.product-visual{background:var(--bg-soft);border:1px solid var(--border);border-radius:14px;padding:24px;box-shadow:var(--shadow-md)}
+.screen-bar{display:flex;align-items:center;gap:6px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.screen-dot{width:10px;height:10px;border-radius:999px}
+
+/* ─── Review-loop / workflow ─────────────────────────── */
+.flow-title-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.flow-block{margin-bottom:48px}
+.flow-steps{display:flex;flex-direction:column;gap:0}
+.flow-step{display:grid;grid-template-columns:40px 1fr;gap:16px;align-items:start}
+.flow-step:not(:last-child) .flow-step-line{flex:1;width:2px;background:var(--border);min-height:32px;margin-top:6px;margin-left:19px}
+.step-num-col{display:flex;flex-direction:column;align-items:center}
+.step-num{
+  width:32px;height:32px;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:600;flex-shrink:0;
+}
+.step-num--green{background:var(--green);color:#fff}
+.step-num--outline{background:var(--bg);border:2px solid var(--border-strong);color:var(--fg-muted)}
+.flow-step-line{width:2px;background:var(--border);flex:1;min-height:28px;margin-top:4px}
+.step-body{padding-bottom:24px}
+.step-body h4{font-size:14px;font-weight:600;color:var(--fg);margin-bottom:4px}
+.step-body p{font-size:13px;line-height:1.55;color:var(--fg-muted)}
+
+.flow-divider{display:flex;align-items:center;gap:12px;margin:32px 0}
+.flow-divider::before,.flow-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.flow-divider-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--fg-subtle);white-space:nowrap}
+
+/* ─── Knowledge ──────────────────────────────────────── */
+#knowledge{background:var(--bg-soft)}
+.connector-chip{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500;color:var(--fg);box-shadow:var(--shadow-sm)}
+.connectors-wrap{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+
+/* ─── Governance ─────────────────────────────────────── */
+.gov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:800px){.gov-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.gov-grid{grid-template-columns:1fr}}
+
+/* ─── Pricing ────────────────────────────────────────── */
+#pricing{background:var(--bg-soft)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+@media(max-width:800px){.pricing-grid{grid-template-columns:1fr}}
+.plan{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:28px;box-shadow:var(--shadow-sm)}
+.plan--featured{border-color:var(--green);box-shadow:0 0 0 1px var(--green),var(--shadow-md)}
+.plan-name{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-muted);margin-bottom:10px}
+.plan-price{font-size:32px;font-weight:700;color:var(--fg);line-height:1}
+.plan-price span{font-size:14px;font-weight:400;color:var(--fg-muted)}
+.plan-desc{margin-top:10px;font-size:13px;color:var(--fg-muted);line-height:1.55}
+.plan-divider{height:1px;background:var(--border);margin:20px 0}
+.plan-feature{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--fg-muted);margin-bottom:10px}
+.plan-feature svg{width:14px;height:14px;color:var(--green);flex-shrink:0}
+
+/* ─── FAQ ────────────────────────────────────────────── */
+.faq-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+details{border-bottom:1px solid var(--border)}
+details:last-child{border-bottom:0}
+summary{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:18px 20px;font-size:14.5px;font-weight:500;color:var(--fg);
+  cursor:pointer;list-style:none;
+}
+summary::-webkit-details-marker{display:none}
+.summary-icon{width:20px;height:20px;border-radius:999px;border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s}
+details[open] .summary-icon{transform:rotate(45deg)}
+.faq-answer{padding:0 20px 18px;font-size:13.5px;line-height:1.65;color:var(--fg-muted)}
+
+/* ─── CTA ────────────────────────────────────────────── */
+#cta{background:var(--green);color:#fff;text-align:center;padding:72px 24px}
+#cta h2{font-size:clamp(24px,4vw,36px);font-weight:600;margin-bottom:14px}
+#cta p{font-size:16px;opacity:.88;max-width:480px;margin-inline:auto;margin-bottom:28px;line-height:1.6}
+.btn--white{background:#fff;color:var(--green);font-weight:600}
+.btn--white:hover{background:var(--green-light)}
+.btn--outline-white{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4)}
+.btn--outline-white:hover{background:rgba(255,255,255,.1)}
+
+/* ─── Footer ─────────────────────────────────────────── */
+footer{padding:40px 24px;border-top:1px solid var(--border);background:var(--bg-soft)}
+.footer-inner{max-width:1100px;margin-inline:auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-copy{font-size:12.5px;color:var(--fg-subtle)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12.5px;color:var(--fg-subtle)}
+.footer-links a:hover{color:var(--fg)}
+
+/* ─── Hairline ───────────────────────────────────────── */
+.hairline{height:1px;background:linear-gradient(to right,transparent,var(--border) 16%,var(--border) 84%,transparent);margin:0}
+
+/* ─── Connectors icons mock ──────────────────────────── */
+.icon-box{width:32px;height:32px;border-radius:6px;background:var(--bg-muted);display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+
+/* ─── Hero flow visual ───────────────────────────────── */
+.hero-flow{margin-top:44px;display:flex;align-items:stretch;justify-content:center;background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;max-width:680px;margin-inline:auto;box-shadow:var(--shadow-sm)}
+.hflow-step{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:18px 10px;flex:1;text-align:center;position:relative}
+.hflow-step:not(:last-child){border-right:1px solid var(--border)}
+.hflow-step:not(:last-child)::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--border-strong);z-index:1;background:var(--bg);padding:0 2px}
+.hflow-step--auto{background:var(--green-xlight)}
+.hflow-step--auto:not(:last-child)::after{background:var(--green-xlight)}
+.hflow-icon{font-size:20px;line-height:1}
+.hflow-label{font-size:11px;font-weight:500;color:var(--fg-muted);line-height:1.35}
+.hflow-step--auto .hflow-label{color:var(--green-deep);font-weight:600}
+.hflow-badge{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;background:var(--green);color:#fff;border-radius:999px;padding:1px 6px;margin-top:2px}
+.hflow-badge--amber{background:#d97706}
+.hflow-step--amber{background:#fff8ed}
+.hflow-step--amber .hflow-label{color:#92400e;font-weight:600}
+.hero-flow--labeled{border-radius:0 0 12px 12px;margin-top:0;max-width:none}
+.hero-flows-wrap{max-width:700px;margin:40px auto 0;display:flex;flex-direction:column;gap:18px;text-align:left}
+.approach-label{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 14px;border-bottom:0;border-radius:12px 12px 0 0;font-size:12.5px;font-weight:600}
+.approach-label--auto{background:var(--green-xlight);border:1px solid var(--green-mid);color:var(--green-deep)}
+.approach-label--review{background:var(--bg-muted);border:1px solid var(--border-strong);color:var(--fg-muted)}
+@media(max-width:520px){.hero-flow{flex-direction:column}.hflow-step:not(:last-child){border-right:0;border-bottom:1px solid var(--border)}.hflow-step:not(:last-child)::after{content:'↓';right:auto;top:auto;bottom:-10px;left:50%;transform:translateX(-50%)}}
+
+/* ─── Mode comparison in product section ─────────────── */
+.mode-compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+@media(max-width:480px){.mode-compare{grid-template-columns:1fr}}
+.mode-card{border-radius:10px;padding:14px;border:1px solid}
+.mode-card--auto{background:var(--green-xlight);border-color:var(--green-mid)}
+.mode-card--review{background:var(--bg-soft);border-color:var(--border)}
+.mode-card-header{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:10px}
+.mode-card-title{font-size:12px;font-weight:600;color:var(--fg-subtle);text-transform:uppercase;letter-spacing:.05em}
+.mode-card-name{font-size:13px;font-weight:700;margin-bottom:10px}
+.mode-card--auto .mode-card-name{color:var(--green-deep)}
+.mode-card--review .mode-card-name{color:var(--fg-muted)}
+.mflow{display:flex;flex-direction:column;gap:0}
+.mflow-row{display:flex;align-items:center;gap:7px}
+.mflow-dot{width:20px;height:20px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;border:1.5px solid transparent}
+.mflow-dot--green{background:var(--green);border-color:var(--green-dark)}
+.mflow-dot--gray{background:var(--bg-sunken);border-color:var(--border-strong)}
+.mflow-dot--amber{background:#f59e0b;border-color:#d97706}
+.mflow-text{font-size:11.5px;color:var(--fg-muted);line-height:1.3}
+.mflow-text--strong{color:var(--green-deep);font-weight:600}
+.mflow-line{width:1.5px;height:7px;margin-left:9px}
+.mflow-line--green{background:var(--green-mid)}
+.mflow-line--gray{background:var(--border-strong)}
+.mflow-line--amber{background:#fde68a}
+
+/* ─── Review-loop comparison table ───────────────────── */
+.compare-wrap{overflow-x:auto;margin-top:36px;margin-bottom:40px}
+.compare-table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;border:1px solid var(--border);min-width:440px}
+.compare-table th{padding:11px 14px;text-align:left;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;background:var(--bg-soft);border-bottom:2px solid var(--border)}
+.compare-table th:first-child{color:var(--fg-subtle);width:36%}
+.compare-table th.th--auto{color:var(--green-deep);background:var(--green-xlight)}
+.compare-table th.th--review{color:var(--fg-muted)}
+.compare-table td{padding:10px 14px;font-size:13px;color:var(--fg-muted);border-bottom:1px solid var(--border);vertical-align:top;line-height:1.45}
+.compare-table tr:last-child td{border-bottom:0}
+.compare-table td:first-child{color:var(--fg);font-weight:500;background:var(--bg-soft);font-size:12.5px}
+.compare-table td.td--auto{background:var(--green-xlight);color:var(--green-deep);font-weight:500}
+.compare-table td.td--review{background:var(--bg)}
+</style>
+</head>
+<body>
+
+<!-- ─── Nav ─────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top">
+      <span class="nav-logo-dot"></span>
+      Muster
+    </a>
+    <div class="nav-links">
+      <a href="#problem">Why Muster</a>
+      <a href="#product">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn--primary" href="https://calendly.com/dadesalexandru/muster-demo">See a demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── Hero ─────────────────────────────────────────── -->
+<section id="top">
+  <div class="wrap--narrow">
+    <div class="hero-overline">
+      <span class="dot"></span>
+      Used by HR teams across Europe
+    </div>
+    <h1>Your knowledge base answers HR questions. Automatically.</h1>
+    <p class="hero-sub">Muster reads your policy documents and replies to incoming questions with no human involvement. AI answers grounded in verified documentation are more accurate and more consistent than manual replies — no interpretation bias, no off days.</p>
+    <div class="hero-cta">
+      <a class="btn btn--primary" href="https://calendly.com/dadesalexandru/muster-demo">See a 5-minute demo →</a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+        Answers in under 60 seconds
+      </span>
+      <span class="badge">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+        SharePoint &amp; Outlook native
+      </span>
+      <span class="badge">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+        Every reply logged with source
+      </span>
+    </div>
+
+    <div class="hero-flows-wrap">
+      <div>
+        <div class="approach-label approach-label--auto">
+          <span>⚡ How Muster works — fully autonomous by default</span>
+          <span class="chip chip--green">Default mode</span>
+        </div>
+        <div class="hero-flow hero-flow--labeled">
+          <div class="hflow-step">
+            <div class="hflow-icon">📧</div>
+            <div class="hflow-label">Employee<br>emails HR</div>
+          </div>
+          <div class="hflow-step">
+            <div class="hflow-icon">🔍</div>
+            <div class="hflow-label">AI reads<br>policy docs</div>
+          </div>
+          <div class="hflow-step">
+            <div class="hflow-icon">✍️</div>
+            <div class="hflow-label">Reply<br>drafted</div>
+          </div>
+          <div class="hflow-step hflow-step--auto">
+            <div class="hflow-icon">⚡</div>
+            <div class="hflow-label">Sent<br>automatically</div>
+            <span class="hflow-badge">No human needed</span>
+          </div>
+          <div class="hflow-step">
+            <div class="hflow-icon">📋</div>
+            <div class="hflow-label">Audit<br>logged</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── Problem ──────────────────────────────────────── -->
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label">The problem</div>
+      <h2 class="sec-title">HR inboxes get buried in questions that policy docs already answer</h2>
+      <p class="sec-body">The same questions land every week. Staff answer them manually, often differently. Every hour spent on this is an hour not spent on work that actually needs a human.</p>
+    </div>
+    <div class="problem-grid">
+
+      <div class="problem-card problem-card--red">
+        <div class="problem-label problem-label--red">Pain point</div>
+        <h3>Inbox overload</h3>
+        <p>Benefits, PTO, parental leave, expense policies — the same questions recur every week, draining hours from HR that should go to real work.</p>
+      </div>
+
+      <div class="problem-card problem-card--amber">
+        <div class="problem-label problem-label--amber">Pain point</div>
+        <h3>Inconsistent answers</h3>
+        <p>Different HR staff reply differently to the same question. Employees compare notes, erode trust, and escalate to managers who shouldn't need to be involved.</p>
+      </div>
+
+      <div class="problem-card problem-card--blue">
+        <div class="problem-label problem-label--blue">Pain point</div>
+        <h3>Stale knowledge</h3>
+        <p>Policy documents are updated but no one re-reads them. Replies still reference last year's rules. Corrections cost more than the original error.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── Competitive positioning ──────────────────────── -->
+<section id="alternatives" style="background:var(--bg-soft)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label">Why not just…</div>
+      <h2 class="sec-title">The alternatives don't actually solve it</h2>
+      <p class="sec-body">HR teams usually consider four options. Three of them have fundamental problems.</p>
+    </div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;border:1px solid var(--border);min-width:480px">
+        <thead>
+          <tr>
+            <th style="padding:11px 16px;text-align:left;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-subtle);background:var(--bg-muted);border-bottom:2px solid var(--border)">Option</th>
+            <th style="padding:11px 16px;text-align:left;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-subtle);background:var(--bg-muted);border-bottom:2px solid var(--border)">The problem with it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:12px 16px;font-size:13.5px;font-weight:600;color:var(--fg);border-bottom:1px solid var(--border);white-space:nowrap;background:var(--bg)">Hire more HR staff</td>
+            <td style="padding:12px 16px;font-size:13.5px;color:var(--fg-muted);border-bottom:1px solid var(--border);background:var(--bg)">€3,500+/month per person. Still inconsistent. Doesn't scale with volume. Subject to turnover.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 16px;font-size:13.5px;font-weight:600;color:var(--fg);border-bottom:1px solid var(--border);white-space:nowrap;background:var(--bg)">Generic chatbot</td>
+            <td style="padding:12px 16px;font-size:13.5px;color:var(--fg-muted);border-bottom:1px solid var(--border);background:var(--bg)">Not grounded in your actual policy documents. Hallucination risk. No audit trail. Employees lose trust in it fast.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 16px;font-size:13.5px;font-weight:600;color:var(--fg);border-bottom:1px solid var(--border);white-space:nowrap;background:var(--bg)">DIY with ChatGPT</td>
+            <td style="padding:12px 16px;font-size:13.5px;color:var(--fg-muted);border-bottom:1px solid var(--border);background:var(--bg)">No compliance logging. No M365 integration. No review workflow. Maintenance burden falls on IT. Not built for this use case.</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 16px;font-size:13.5px;font-weight:700;color:var(--green-deep);border-bottom:0;white-space:nowrap;background:var(--green-xlight)">Muster</td>
+            <td style="padding:12px 16px;font-size:13.5px;color:var(--green-deep);border-bottom:0;background:var(--green-xlight)">Grounded in your policy documents. Full audit trail. M365-native. 1-day setup. From €199/month — less than one day of HR staff cost.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── Autonomous value ─────────────────────────────── -->
+<section id="autonomous" style="background:var(--green-xlight)">
+  <div class="wrap">
+    <div class="sec-head sec-head--center">
+      <div class="sec-label">Why autonomous replies work</div>
+      <h2 class="sec-title" style="color:var(--green-deep)">With the right knowledge base, AI outperforms human replies</h2>
+      <p class="sec-body">Human answers depend on memory, habit, and who happens to be in the office. AI answers are drawn directly from the current policy document, every single time.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card" style="border-color:var(--green-mid)">
+        <div class="card-icon" style="background:var(--green-light)">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2l2.4 4.8 5.3.8-3.85 3.75.91 5.3L10 14.1l-4.76 2.55.91-5.3L2.3 7.6l5.3-.8L10 2z"/></svg>
+        </div>
+        <h3>More accurate than human replies</h3>
+        <p>Every answer is pulled from the current version of your policy document — not from memory or an out-of-date email thread. No guessing, no hedging.</p>
+      </div>
+      <div class="card" style="border-color:var(--green-mid)">
+        <div class="card-icon" style="background:var(--green-light)">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10h12M10 4v12"/><circle cx="10" cy="10" r="7"/></svg>
+        </div>
+        <h3>Perfectly consistent — no off days</h3>
+        <p>The same question gets the same answer, whether it's asked on a Monday morning or a Friday afternoon. No interpretation bias. No variation between staff members.</p>
+      </div>
+      <div class="card" style="border-color:var(--green-mid)">
+        <div class="card-icon" style="background:var(--green-light)">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><polyline points="10 6 10 10 13 12"/></svg>
+        </div>
+        <h3>Answered in under 60 seconds</h3>
+        <p>Questions are handled before they reach the HR team's to-do list. Employees get an answer immediately — with the policy source cited so they can verify it themselves.</p>
+      </div>
+    </div>
+    <div style="margin-top:28px;padding:16px 20px;background:var(--bg);border:1px solid var(--green-mid);border-radius:12px;text-align:center;max-width:640px;margin-inline:auto">
+      <p style="font-size:13.5px;color:var(--fg-muted);line-height:1.6">Want a confidence check during rollout? Enable <strong style="color:var(--fg)">review mode</strong> — approve drafts by replying to an email or clicking approve in the dashboard. Most teams switch to full autonomy within 2–4 weeks.</p>
+    </div>
+    <div style="text-align:center;margin-top:28px">
+      <a class="btn btn--ghost" href="#product">See how it works →</a>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── ROI ──────────────────────────────────────────── -->
+<section id="roi" style="background:var(--bg-soft)">
+  <div class="wrap">
+    <div class="sec-head sec-head--center">
+      <div class="sec-label">The business case</div>
+      <h2 class="sec-title">What it actually costs you to not automate this</h2>
+    </div>
+    <div class="grid-3" style="margin-bottom:28px">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center;box-shadow:var(--shadow-sm)">
+        <div style="font-size:36px;font-weight:700;color:var(--green);line-height:1">15 hrs</div>
+        <div style="font-size:13px;font-weight:600;color:var(--fg);margin-top:6px">saved per week</div>
+        <div style="font-size:12.5px;color:var(--fg-muted);margin-top:4px">HR staff time freed from manual inbox triaging per shared mailbox</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center;box-shadow:var(--shadow-sm)">
+        <div style="font-size:36px;font-weight:700;color:var(--green);line-height:1">€600</div>
+        <div style="font-size:13px;font-weight:600;color:var(--fg);margin-top:6px">freed-up capacity weekly</div>
+        <div style="font-size:12.5px;color:var(--fg-muted);margin-top:4px">At a blended €40/hr HR cost — redirected to work that needs human judgment</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:24px;text-align:center;box-shadow:var(--shadow-sm)">
+        <div style="font-size:36px;font-weight:700;color:var(--green);line-height:1">€3,500+</div>
+        <div style="font-size:13px;font-weight:600;color:var(--fg);margin-top:6px">per HR FTE per month</div>
+        <div style="font-size:12.5px;color:var(--fg-muted);margin-top:4px">Muster from €199/month replaces 3–4 FTEs of repetitive policy-question work</div>
+      </div>
+    </div>
+    <div style="padding:16px 24px;background:var(--bg);border:1px solid var(--border);border-radius:12px;text-align:center;max-width:600px;margin-inline:auto">
+      <p style="font-size:14px;color:var(--fg-muted)">Starter plan at <strong style="color:var(--fg)">€199/month</strong> pays for itself in under 4 hours of staff time saved per month.</p>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── Product ──────────────────────────────────────── -->
+<section id="product">
+  <div class="wrap">
+    <div class="product-layout">
+      <div>
+        <div class="sec-label">How it works</div>
+        <h2 class="sec-title">Live in under a day — no new tooling required</h2>
+        <p class="sec-body" style="margin-bottom:32px">Muster runs entirely inside your existing Microsoft environment. Three steps and it's processing questions.</p>
+        <div class="product-bullets">
+
+          <div class="product-bullet">
+            <div class="bullet-num">1</div>
+            <div class="bullet-text">
+              <h4>Connect your shared Outlook inbox</h4>
+              <p>Authorise Muster via M365 app registration. No shared passwords, no email forwarding — direct Microsoft Graph API. Takes about 20 minutes.</p>
+            </div>
+          </div>
+
+          <div class="product-bullet">
+            <div class="bullet-num">2</div>
+            <div class="bullet-text">
+              <h4>Load your policy documents</h4>
+              <p>Upload PDFs or Word files, or link a SharePoint library. Muster indexes them automatically and re-indexes whenever the source changes.</p>
+            </div>
+          </div>
+
+          <div class="product-bullet">
+            <div class="bullet-num">3</div>
+            <div class="bullet-text">
+              <h4>Go live — processing starts immediately</h4>
+              <p>The moment setup is complete, incoming questions are classified, matched to policy, and answered. Most teams are live in one day. Getting your knowledge base production-ready typically takes 1–2 additional weeks depending on how current your policy documents are.</p>
+            </div>
+          </div>
+
+        </div>
+        <div style="margin-top:24px;padding:16px 18px;background:var(--bg-muted);border-left:3px solid var(--green);border-radius:0 8px 8px 0">
+          <div style="font-size:13px;font-weight:600;color:var(--fg);margin-bottom:4px">A note on policy quality</div>
+          <p style="font-size:13px;color:var(--fg-muted);line-height:1.55">Your policies need to be clear and current. We help you audit existing documents and flag ambiguous or outdated passages before going live. If a policy is unclear, Muster holds the email for human review rather than guessing.</p>
+        </div>
+      </div>
+
+      <!-- Setup status visual -->
+      <div class="product-visual">
+        <div class="screen-bar">
+          <div class="screen-dot" style="background:#ef4444"></div>
+          <div class="screen-dot" style="background:#f59e0b"></div>
+          <div class="screen-dot" style="background:#22c55e"></div>
+          <span style="font-size:12px;color:var(--fg-subtle);margin-left:6px">muster.team · setup</span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+
+          <div style="background:var(--green-xlight);border:1px solid var(--green-mid);border-radius:8px;padding:12px">
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--green-deep);margin-bottom:8px">Connected systems</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--fg)">
+                <span style="color:var(--green);font-weight:700">✓</span>
+                <span>hr@acme.com <span style="color:var(--fg-subtle)">(shared mailbox)</span></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--fg)">
+                <span style="color:var(--green);font-weight:700">✓</span>
+                <span>SharePoint › HR Policies › 2025 <span style="color:var(--fg-subtle)">(auto-sync)</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;padding:12px">
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-muted);margin-bottom:8px">Knowledge base</div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--fg)">
+                <span style="color:var(--green);font-weight:700">✓</span>
+                <span>Parental Leave Policy v3.2</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--fg)">
+                <span style="color:var(--green);font-weight:700">✓</span>
+                <span>Expense &amp; Travel Guidelines</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--fg)">
+                <span style="color:var(--green);font-weight:700">✓</span>
+                <span>Remote Work Policy</span>
+              </div>
+              <div style="font-size:11.5px;color:var(--fg-subtle);margin-top:2px">847 policy passages indexed</div>
+            </div>
+          </div>
+
+          <div style="background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:8px">
+            <div>
+              <div style="font-size:12.5px;font-weight:600;color:var(--fg)">Status</div>
+              <div style="font-size:12px;color:var(--fg-muted);margin-top:2px">Processing incoming questions</div>
+            </div>
+            <span class="chip chip--green" style="white-space:nowrap">⚡ Live</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── Knowledge ────────────────────────────────────── -->
+<section id="knowledge">
+  <div class="wrap">
+    <div class="sec-head sec-head--center">
+      <div class="sec-label">Knowledge base</div>
+      <h2 class="sec-title">Your policies, always current</h2>
+      <p class="sec-body">Muster reads directly from SharePoint, OneDrive, or uploaded files. When you update a policy, the knowledge base updates automatically — answers stay accurate without manual intervention.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="14" height="16" rx="2"/><line x1="7" y1="7" x2="13" y2="7"/><line x1="7" y1="10" x2="13" y2="10"/><line x1="7" y1="13" x2="10" y2="13"/></svg>
+        </div>
+        <h3>PDF &amp; Word documents</h3>
+        <p>Upload policy files directly. Muster chunks and embeds them, tracking versions so replies always cite the latest.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3a7 7 0 100 14A7 7 0 0010 3z"/><path d="M10 7v4l2.5 2.5"/></svg>
+        </div>
+        <h3>Always up to date</h3>
+        <p>When you update a policy document, Muster re-indexes automatically. Replies drawn the day after an update cite the new version — not last quarter's.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><line x1="10" y1="7" x2="10" y2="13"/><line x1="7" y1="10" x2="13" y2="10"/></svg>
+        </div>
+        <h3>Source citations in every reply</h3>
+        <p>Every AI reply cites the exact document and section it drew from. Employees — and auditors — can verify the answer themselves.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── Connectors ───────────────────────────────────── -->
+<section id="connectors">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label">Integrations</div>
+      <h2 class="sec-title">Fits your existing Microsoft stack</h2>
+      <p class="sec-body">No new inboxes. No separate portals. Muster plugs into the tools your HR team already uses every day.</p>
+    </div>
+    <div class="connectors-wrap">
+      <div class="connector-chip">📧 Outlook (shared mailboxes)</div>
+      <div class="connector-chip">💬 Microsoft Teams</div>
+      <div class="connector-chip">📁 SharePoint</div>
+      <div class="connector-chip">☁️ OneDrive</div>
+      <div class="connector-chip">🔐 Azure AD / Entra ID</div>
+      <div class="connector-chip">📊 Excel &amp; Word</div>
+      <div class="connector-chip">🔔 Webhook notifications</div>
+      <div class="connector-chip">📋 Audit export (CSV)</div>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── Governance ───────────────────────────────────── -->
+<section id="governance">
+  <div class="wrap">
+    <div class="sec-head sec-head--center">
+      <div class="sec-label">For compliance &amp; legal</div>
+      <h2 class="sec-title">Everything your compliance team will ask for</h2>
+      <p class="sec-body">Before any HR leader signs off, someone from legal or compliance will ask: can we see what was sent and why? Yes — in detail, always.</p>
+    </div>
+    <div class="gov-grid">
+      <div class="card">
+        <h3>Full record of every reply sent</h3>
+        <p>Every email answered is logged: what question came in, which policy passage it matched, what was sent, and who approved it (if applicable). Exportable as CSV for GDPR subject-access requests or HR audits.</p>
+      </div>
+      <div class="card">
+        <h3>Separate logins for each role. No shared passwords.</h3>
+        <p>Reviewers, admins, and read-only auditors each have their own access level. SSO via Entra ID. No single shared credential that can go walkabout.</p>
+      </div>
+      <div class="card">
+        <h3>Your data stays in your region</h3>
+        <p>Choose EU or US processing. Document embeddings never leave your selected region. The AI provider never receives raw policy text.</p>
+      </div>
+      <div class="card">
+        <h3>You decide when a policy update takes effect</h3>
+        <p>When you change a document, you control when Muster starts using the new version. The previous version remains on record — so historical replies can always be traced back to the policy that was live at the time.</p>
+      </div>
+      <div class="card">
+        <h3>Low-confidence questions go to a human queue — never get guessed</h3>
+        <p>If Muster isn't certain enough to answer, it holds the email and notifies your team. Typical handling: same-day batch review. It never fabricates an answer.</p>
+      </div>
+      <div class="card">
+        <h3>GDPR, ePrivacy, and DPA ready</h3>
+        <p>Muster is GDPR and ePrivacy compliant. A Data Processing Agreement and standard contract terms are available to sign before you go live — required by most European enterprise procurement.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px">
+      <a class="btn btn--ghost" href="https://calendly.com/dadesalexandru/muster-demo">Talk to our compliance team →</a>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── Pricing ──────────────────────────────────────── -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head sec-head--center">
+      <div class="sec-label">Pricing</div>
+      <h2 class="sec-title">Simple, inbox-based pricing</h2>
+      <p class="sec-body">Pay per inbox connected. No per-email charges, no seat limits on reviewers.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <div class="plan">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">€199 <span>/ month</span></div>
+        <div class="plan-desc">One inbox. Good for teams piloting Muster on a single policy area.</div>
+        <div class="plan-divider"></div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          1 shared inbox
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          Up to 10 knowledge documents
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          90-day audit history
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          Email support
+        </div>
+        <a class="btn btn--ghost" style="width:100%;justify-content:center;margin-top:8px" href="https://calendly.com/dadesalexandru/muster-demo">Start your pilot →</a>
+      </div>
+
+      <div class="plan plan--featured">
+        <div class="chip chip--green" style="margin-bottom:10px">Most popular</div>
+        <div class="plan-name">Team</div>
+        <div class="plan-price">€499 <span>/ month</span></div>
+        <div class="plan-desc">Up to 5 inboxes. Ideal for HR teams managing multiple policy areas.</div>
+        <div class="plan-divider"></div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          Up to 5 shared inboxes
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          Unlimited knowledge documents
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          SharePoint auto-sync
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          2-year audit history
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          Priority support
+        </div>
+        <a class="btn btn--primary" style="width:100%;justify-content:center;margin-top:8px" href="https://calendly.com/dadesalexandru/muster-demo">Get started →</a>
+      </div>
+
+      <div class="plan">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price">Custom</div>
+        <div class="plan-desc">Unlimited inboxes, dedicated support, SLA, and custom data residency.</div>
+        <div class="plan-divider"></div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          Unlimited inboxes
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          Dedicated onboarding
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          Custom data residency
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          SLA &amp; uptime guarantee
+        </div>
+        <div class="plan-feature">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1.5 8.5 5.5 12.5 14.5 3.5"/></svg>
+          SSO / Entra ID
+        </div>
+        <a class="btn btn--ghost" style="width:100%;justify-content:center;margin-top:8px" href="https://calendly.com/dadesalexandru/muster-demo">Get a custom quote →</a>
+      </div>
+
+    </div>
+    <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--fg-muted)">Review mode included in all plans — no extra charge.</p>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── Social proof ─────────────────────────────────── -->
+<section id="social-proof" style="background:var(--bg-soft)">
+  <div class="wrap">
+    <div style="display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:40px">
+      <div style="text-align:center">
+        <div style="font-size:28px;font-weight:700;color:var(--green)">40+</div>
+        <div style="font-size:12.5px;color:var(--fg-muted);margin-top:3px">European HR teams</div>
+      </div>
+      <div style="width:1px;height:40px;background:var(--border);flex-shrink:0"></div>
+      <div style="text-align:center">
+        <div style="font-size:28px;font-weight:700;color:var(--green)">50k+</div>
+        <div style="font-size:12.5px;color:var(--fg-muted);margin-top:3px">emails processed/month</div>
+      </div>
+      <div style="width:1px;height:40px;background:var(--border);flex-shrink:0"></div>
+      <div style="text-align:center">
+        <div style="font-size:28px;font-weight:700;color:var(--green)">&lt;60s</div>
+        <div style="font-size:12.5px;color:var(--fg-muted);margin-top:3px">average reply time</div>
+      </div>
+      <div style="width:1px;height:40px;background:var(--border);flex-shrink:0"></div>
+      <div style="text-align:center">
+        <div style="font-size:28px;font-weight:700;color:var(--green)">24h→58s</div>
+        <div style="font-size:12.5px;color:var(--fg-muted);margin-top:3px">typical reply time reduction</div>
+      </div>
+    </div>
+    <div style="max-width:640px;margin-inline:auto;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:28px;box-shadow:var(--shadow-sm)">
+      <p style="font-size:15px;line-height:1.65;color:var(--fg);font-style:italic;margin-bottom:16px">"We went from a 24-hour reply backlog to zero. HR now handles exceptions only — everything routine is answered before we even see it."</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:36px;height:36px;border-radius:999px;background:var(--bg-muted);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--fg-muted)">M</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--fg)">Maria S.</div>
+          <div style="font-size:12.5px;color:var(--fg-muted)">Logistics Company, Netherlands</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── FAQ ──────────────────────────────────────────── -->
+<section id="faq">
+  <div class="wrap--narrow">
+    <div class="sec-head sec-head--center">
+      <div class="sec-label">FAQ</div>
+      <h2 class="sec-title">Common questions</h2>
+    </div>
+    <div class="faq-list">
+
+      <details>
+        <summary>
+          Is Muster really fully autonomous — will it send emails without any human?
+          <span class="summary-icon">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg>
+          </span>
+        </summary>
+        <div class="faq-answer">Yes. In autonomous mode — the default — Muster sends replies from your shared inbox without any human interaction. The AI reads the incoming question, retrieves the relevant policy passage, drafts a reply, and sends it. You review the audit log on your own schedule. If you prefer oversight during an initial period, switch to review mode until you're comfortable, then flip back.</div>
+      </details>
+
+      <details>
+        <summary>
+          How do reviewers approve in review mode?
+          <span class="summary-icon">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg>
+          </span>
+        </summary>
+        <div class="faq-answer">Two ways: in the Muster web app (dashboard → Pending), or by replying to the approval email that Muster sends to the reviewer. The email contains the draft, the source policy excerpt, and approve/reject links — no login required. Either method records the reviewer's identity in the audit log.</div>
+      </details>
+
+      <details>
+        <summary>
+          What happens when Muster can't find a matching policy?
+          <span class="summary-icon">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg>
+          </span>
+        </summary>
+        <div class="faq-answer">If the retrieval confidence falls below your configured threshold, Muster does not send — in either mode. Instead it flags the email for human handling and notifies the inbox owner. This means Muster never guesses or fabricates an answer.</div>
+      </details>
+
+      <details>
+        <summary>
+          Is employee data used to train the AI models?
+          <span class="summary-icon">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg>
+          </span>
+        </summary>
+        <div class="faq-answer">No. Muster uses the Anthropic API under a zero-data-retention agreement — inputs and outputs are not used for model training. Your policy documents are stored in your own M365 tenant and processed in your selected data residency region.</div>
+      </details>
+
+      <details>
+        <summary>
+          Can I use Muster without SharePoint?
+          <span class="summary-icon">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg>
+          </span>
+        </summary>
+        <div class="faq-answer">Yes. You can upload PDF and Word documents directly to the Muster knowledge base, or link OneDrive folders. SharePoint auto-sync is a convenience feature, not a requirement.</div>
+      </details>
+
+      <details>
+        <summary>
+          How long does it take to set up?
+          <span class="summary-icon">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg>
+          </span>
+        </summary>
+        <div class="faq-answer">The technical setup takes one day. The M365 app registration is about 20 minutes; indexing your first policy documents is another 10–30 minutes. Getting your knowledge base production-ready — making sure policies are current, clear, and complete — typically takes 1–2 additional weeks. We help you audit and prepare your documents as part of onboarding.</div>
+      </details>
+
+      <details>
+        <summary>
+          How long before we can switch to fully autonomous mode?
+          <span class="summary-icon">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg>
+          </span>
+        </summary>
+        <div class="faq-answer">Most teams run in review mode for 2–4 weeks — long enough to see a representative sample of questions and verify the replies are accurate. Some teams go autonomous on day one once they've confirmed the knowledge base quality. Switching is a one-click toggle, per inbox. There's no re-setup involved.</div>
+      </details>
+
+      <details>
+        <summary>
+          Do you help with setup and onboarding?
+          <span class="summary-icon">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg>
+          </span>
+        </summary>
+        <div class="faq-answer">Yes. Full onboarding, policy audit, and knowledge base preparation are included in every plan. We help you review your existing documents, flag ambiguous or outdated passages, and ensure the knowledge base is accurate before going live. You're not left to figure it out alone.</div>
+      </details>
+
+      <details>
+        <summary>
+          What's the timeline from signing to first autonomous reply?
+          <span class="summary-icon">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg>
+          </span>
+        </summary>
+        <div class="faq-answer">Technical setup takes one day — M365 app registration is about 20 minutes. Preparing your knowledge base (auditing and uploading your policy documents) typically takes 1–2 weeks depending on how current your documents are. Most teams send their first autonomous reply in week 2–3 after signing.</div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+
+<!-- ─── CTA ──────────────────────────────────────────── -->
+<section id="cta">
+  <h2>Ready to eliminate manual policy replies?</h2>
+  <p>40+ HR teams went live in a week. Let's see if Muster is right for you. 30-min call, no obligation.</p>
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap">
+    <a class="btn btn--white" style="height:44px;padding-inline:24px;font-size:15px" href="https://calendly.com/dadesalexandru/muster-demo">Schedule a 30-minute call →</a>
+  </div>
+</section>
+
+<!-- ─── Footer ───────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="width:8px;height:8px;border-radius:999px;background:var(--green);display:inline-block"></span>
+      <span style="font-size:13px;font-weight:600;color:var(--fg)">Muster</span>
+    </div>
+    <div class="footer-copy">© 2025 Muster. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="https://calendly.com/dadesalexandru/muster-demo">Privacy</a>
+      <a href="https://calendly.com/dadesalexandru/muster-demo">Terms</a>
+      <a href="https://calendly.com/dadesalexandru/muster-demo">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── Dark mode toggle ─────────────────────────────── -->
+<script>
+(function(){
+  var k='muster:theme';
+  var t=localStorage.getItem(k);
+  if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}
+  else{
+    var m=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+    document.documentElement.setAttribute('data-theme',m);
+  }
+  if(history.scrollRestoration) history.scrollRestoration='manual';
+  window.scrollTo(0,0);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.env
+chroma_db/
+muster.db
+uploaded_docs/
+.DS_Store
+.git/
+tests/
+sample_docs/
+eval_qa.py
+ask.py
+email_demo.py
+review.py

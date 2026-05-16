@@ -1,0 +1,22 @@
+# Secrets — never commit these
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# Data — generated at runtime, not part of the codebase
+chroma_db/
+muster.db
+uploaded_docs/
+
+# Mac
+.DS_Store
+
+# IDE
+.vscode/
+.idea/

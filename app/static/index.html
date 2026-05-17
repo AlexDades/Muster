@@ -26,6 +26,12 @@
 
     body{display:flex;height:100vh;overflow:hidden;background:var(--bg-soft);color:var(--fg)}
 
+    /* ── Hamburger (mobile only) ── */
+    .hamburger{display:none;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:none;cursor:pointer;color:var(--fg);flex-shrink:0}
+    .hamburger:hover{background:var(--bg-muted)}
+    .sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:149}
+    .sidebar-backdrop.open{display:block}
+
     /* ── Sidebar ── */
     .sidebar{width:var(--sidebar-w);flex-shrink:0;height:100vh;overflow-y:auto;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column}
     .sidebar-logo{height:56px;display:flex;align-items:center;gap:9px;padding:0 20px;border-bottom:1px solid var(--border);flex-shrink:0}
@@ -197,6 +203,40 @@
     #chat-input{flex:1;resize:none;min-height:40px;max-height:120px;overflow-y:auto;font-family:inherit;font-size:13.5px;line-height:1.5;padding:9px 12px;border:1px solid var(--border);border-radius:10px;outline:none;transition:border-color .15s}
     #chat-input:focus{border-color:var(--green);box-shadow:0 0 0 3px #00a86e1a}
 
+    /* ── Mobile ── */
+    @media(max-width:768px){
+      .hamburger{display:flex}
+      .sidebar{position:fixed;left:calc(-1 * var(--sidebar-w) - 4px);top:0;bottom:0;height:100%;z-index:150;transition:left .25s ease;box-shadow:none}
+      .sidebar.open{left:0;box-shadow:var(--shadow-lg)}
+      .main{width:100%}
+      .topbar{padding:0 12px;gap:8px}
+      .content{padding:14px}
+      /* Hide topbar action buttons — accessible inside each page */
+      #topbar-upload-btn,#global-process-btn{display:none}
+      /* Grids */
+      .steps-grid{grid-template-columns:1fr}
+      .stats-grid{grid-template-columns:repeat(2,1fr)}
+      /* Cards */
+      .card-header{flex-wrap:wrap;gap:8px}
+      .draft-card{padding:14px}
+      .draft-meta{flex-wrap:wrap}
+      /* Modal full-width */
+      .modal{width:96vw;margin:0 auto}
+      /* Filters stack */
+      .filters{flex-direction:column;align-items:stretch}
+      .filters select,.filters input{width:100%}
+      /* Banner */
+      .banner{flex-direction:column;gap:8px}
+      /* Chat: use dvh so keyboard doesn't break layout */
+      .chat-wrap{height:100%;height:100dvh;max-height:calc(100dvh - 56px)}
+      .chat-bubble{max-width:88%}
+      .chat-input-bar{padding:10px 12px}
+      /* Login */
+      .login-card{padding:28px 20px}
+      /* Tables */
+      th,td{padding:8px 10px}
+    }
+
     /* ── Filters ── */
     .filters{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
     .filters select,.filters input{width:auto}
@@ -233,8 +273,10 @@
 </head>
 <body>
 
+<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
+
 <!-- Sidebar -->
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
     <span class="logo-dot"></span>
     <span class="logo-name">Muster</span>
@@ -296,6 +338,9 @@
 <!-- Main -->
 <div class="main">
   <header class="topbar">
+    <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+    </button>
     <div class="topbar-left">
       <div class="topbar-section" id="page-section">Get Started</div>
       <span class="topbar-title" id="page-title">Dashboard</span>
@@ -305,7 +350,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
         New Conversation
       </button>
-      <button class="btn btn-green" onclick="document.getElementById('file-input').click()">
+      <button class="btn btn-green" id="topbar-upload-btn" onclick="document.getElementById('file-input').click()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         Upload Policy Doc
       </button>
@@ -411,7 +456,17 @@ let auditStatusFilter = '';
 let auditSenderFilter = '';
 
 // ── Navigation ─────────────────────────────────────────────────────
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-backdrop').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.remove('open');
+}
+
 function navigate(page, el) {
+  closeSidebar();
   currentPage = page;
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   if (el) el.classList.add('active');

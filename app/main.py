@@ -10,6 +10,7 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from app.api import documents, drafts, audit, settings_api, inbox, chat
+from app.api import onboarding as onboarding_api
 from app.api.auth_api import router as auth_router
 from app.ms365.oauth import router as ms365_router
 from app.auth.jwt_auth import require_auth
@@ -42,6 +43,41 @@ async def _poll_loop() -> None:
                 logger.info("Poll: processed %d email(s)", len(results))
         except Exception:
             logger.exception("Poll cycle failed")
+
+        try:
+            from app.onboarding.store import OnboardingStore
+            from app.email_utils import send_email
+            from datetime import date
+            today = date.today().isoformat()
+            ob_store = OnboardingStore(db_path=settings.db_path)
+            due = ob_store.get_due_deliveries(today)
+            for delivery in due:
+                delivery_id = delivery["delivery_id"]
+                try:
+                    step_body = delivery["body"].replace("{employee_name}", delivery["employee_name"])
+                    file_link = f"{settings.public_base_url}/files/{delivery['doc_name']}"
+                    full_body = f"{step_body}\n\n{file_link}"
+                    send_email(
+                        to=delivery["employee_email"],
+                        subject=delivery["subject"],
+                        body=full_body,
+                    )
+                    ob_store.mark_delivery_sent(delivery_id)
+                    logger.info(
+                        "Onboarding: sent delivery %d to %s",
+                        delivery_id,
+                        delivery["employee_email"],
+                    )
+                except Exception:
+                    ob_store.mark_delivery_failed(delivery_id)
+                    logger.exception(
+                        "Onboarding: failed delivery %d to %s",
+                        delivery_id,
+                        delivery["employee_email"],
+                    )
+        except Exception:
+            logger.exception("Onboarding delivery cycle failed")
+
         await asyncio.sleep(settings.poll_interval_seconds)
 
 
@@ -106,6 +142,7 @@ app.include_router(audit.router, dependencies=_auth_dep)
 app.include_router(settings_api.router, dependencies=_auth_dep)
 app.include_router(inbox.router, dependencies=_auth_dep)
 app.include_router(chat.router, dependencies=_auth_dep)
+app.include_router(onboarding_api.router, dependencies=_auth_dep)
 
 STATIC_DIR = Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")

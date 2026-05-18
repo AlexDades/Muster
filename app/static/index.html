@@ -320,6 +320,12 @@
       Upload Policy Docs
     </button>
 
+    <div class="nav-section">People</div>
+    <button class="nav-item" onclick="navigate('onboarding', this)">
+      <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      Onboarding
+    </button>
+
     <div class="nav-section">Email</div>
     <button class="nav-item" onclick="navigate('inbox', this)">
       <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5v-3h3.56c.69 1.19 1.97 2 3.45 2s2.75-.81 3.45-2H19v3zm0-5h-4.99c0 1.1-.9 2-2.01 2s-2.01-.9-2.01-2H5V5h14v9z"/></svg>
@@ -487,6 +493,78 @@
   </div>
 </div>
 
+<!-- Notify employees modal -->
+<div class="overlay" id="notify-modal">
+  <div class="modal" style="width:520px">
+    <div class="modal-header">
+      <span class="modal-title">Notify Employees of Policy Update</span>
+      <button class="modal-close" onclick="closeModal('notify-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Document</label>
+        <p id="notify-doc-name" style="font-size:13.5px;color:var(--fg-muted);padding:8px 12px;background:var(--bg-soft);border-radius:8px;border:1px solid var(--border)"></p>
+      </div>
+      <div class="form-group">
+        <label>Recipient email addresses <span style="color:var(--fg-subtle);font-weight:400">(one per line)</span></label>
+        <textarea id="notify-recipients" rows="4" placeholder="employee@company.com&#10;another@company.com"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Custom message <span style="color:var(--fg-subtle);font-weight:400">(optional — leave blank for default)</span></label>
+        <textarea id="notify-message" rows="2" placeholder="We have updated the remote work policy. Please review the changes at your earliest convenience."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('notify-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitNotify()">Send Notifications</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sequence steps modal -->
+<div class="overlay" id="seq-modal">
+  <div class="modal" style="width:580px">
+    <div class="modal-header">
+      <span class="modal-title" id="seq-modal-title">Sequence Steps</span>
+      <button class="modal-close" onclick="closeModal('seq-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="seq-steps-list" style="margin-bottom:18px"></div>
+      <div style="border-top:1px solid var(--border);padding-top:16px">
+        <div style="font-size:13px;font-weight:600;color:var(--fg);margin-bottom:12px">Add Step</div>
+        <div class="form-group"><label>Policy Document</label><select id="step-doc-select"><option value="">Select a document…</option></select></div>
+        <div class="form-group"><label>Send on day <span style="color:var(--fg-subtle);font-weight:400">(0 = start date)</span></label><input type="number" id="step-day" min="0" max="365" value="0" style="width:100px"/></div>
+        <div class="form-group"><label>Email subject</label><input type="text" id="step-subject" placeholder="Welcome! Please review our onboarding policy"/></div>
+        <div class="form-group"><label>Email body</label><textarea id="step-body" rows="3" placeholder="Hi {employee_name}, as part of your onboarding please review the attached policy."></textarea></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('seq-modal')">Close</button>
+      <button class="btn btn-primary" onclick="submitAddStep()">Add Step</button>
+    </div>
+  </div>
+</div>
+
+<!-- Enroll employee modal -->
+<div class="overlay" id="enroll-modal">
+  <div class="modal" style="width:460px">
+    <div class="modal-header">
+      <span class="modal-title">Enroll Employee</span>
+      <button class="modal-close" onclick="closeModal('enroll-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>Onboarding Sequence</label><select id="enroll-seq-select"><option value="">Select a sequence…</option></select></div>
+      <div class="form-group"><label>Employee Name</label><input type="text" id="enroll-name" placeholder="Jane Smith"/></div>
+      <div class="form-group"><label>Employee Email</label><input type="text" id="enroll-email" placeholder="jane@company.com"/></div>
+      <div class="form-group"><label>Start Date</label><input type="text" id="enroll-date" placeholder="2026-06-01"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('enroll-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitEnroll()">Enroll</button>
+    </div>
+  </div>
+</div>
+
 <!-- Toast container -->
 <div class="toast-wrap" id="toast-wrap"></div>
 
@@ -608,6 +686,7 @@ function navigate(page, el) {
   const titles = {
     dashboard: ['Overview', 'Dashboard'],
     documents: ['Knowledge Base', 'Upload Policy Documents'],
+    onboarding: ['People', 'Onboarding'],
     inbox: ['Email', 'Process Inbox'],
     chat: ['Chat', 'Veridas'],
     drafts: ['Review', 'Review Drafts'],
@@ -1072,6 +1151,52 @@ const pages = {
           <span class="status-value">Every ${s.poll_interval_seconds}s</span>
         </div>`;
     } catch(e) { toast(e.message, 'error'); }
+  },
+
+  async onboarding() {
+    setContent(`
+      <div style="margin-bottom:16px;padding:14px 16px;background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;font-size:13px;color:var(--fg-muted);display:flex;align-items:flex-start;gap:10px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>Onboarding sequences let you automatically deliver policy documents to new employees on a schedule. Create a sequence, add steps (each step sends one document on a specific day), then enroll employees.</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+        <div class="card">
+          <div class="card-header" style="display:flex;align-items:center;justify-content:space-between">
+            <span class="card-title">Sequences</span>
+            <button class="btn btn-primary btn-sm" onclick="showCreateSeqForm()">+ New</button>
+          </div>
+          <div class="card-body">
+            <div id="create-seq-form" style="display:none;margin-bottom:16px;padding:14px;background:var(--bg-soft);border-radius:8px">
+              <div class="form-group" style="margin-bottom:8px">
+                <label style="font-size:12px">Name</label>
+                <input id="new-seq-name" type="text" placeholder="e.g. Engineering Onboarding" style="font-size:13px">
+              </div>
+              <div class="form-group" style="margin-bottom:10px">
+                <label style="font-size:12px">Description (optional)</label>
+                <input id="new-seq-desc" type="text" placeholder="Brief description" style="font-size:13px">
+              </div>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-primary btn-sm" onclick="submitCreateSeq()">Create</button>
+                <button class="btn btn-ghost btn-sm" onclick="document.getElementById('create-seq-form').style.display='none'">Cancel</button>
+              </div>
+            </div>
+            <div id="sequences-list"><div class="skeleton" style="height:60px;margin-bottom:8px"></div><div class="skeleton" style="height:60px"></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" style="display:flex;align-items:center;justify-content:space-between">
+            <span class="card-title">Enrollments</span>
+            <button class="btn btn-primary btn-sm" onclick="openEnrollModal()">+ Enroll</button>
+          </div>
+          <div class="card-body">
+            <div id="enrollments-list"><div class="skeleton" style="height:60px;margin-bottom:8px"></div><div class="skeleton" style="height:60px"></div></div>
+          </div>
+        </div>
+
+      </div>`);
+    await Promise.all([loadSequences(), loadEnrollments()]);
   }
 };
 
@@ -1085,12 +1210,219 @@ async function loadDocs() {
       return;
     }
     el.innerHTML = `<table>
-      <thead><tr><th>Filename</th><th></th></tr></thead>
+      <thead><tr><th>Filename</th><th>Version</th><th></th></tr></thead>
       <tbody>` + docs.map(d => `<tr>
         <td style="font-weight:500">${d.filename}</td>
-        <td style="text-align:right"><button class="btn btn-danger btn-sm" onclick="deleteDoc('${d.doc_id}','${d.filename}')">Remove</button></td>
+        <td><span class="chip ${(d.version||1)>1?'chip-blue':'chip-gray'}">v${d.version||1}</span></td>
+        <td style="text-align:right;white-space:nowrap">
+          <button class="btn btn-secondary btn-sm" style="margin-right:6px" onclick="openNotifyModal('${d.doc_id}','${d.filename.replace(/'/g,"\\'")}')">Notify employees</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteDoc('${d.doc_id}','${d.filename}')">Remove</button>
+        </td>
       </tr>`).join('') + `</tbody></table>`;
   } catch(e) { toast(e.message, 'error'); }
+}
+
+// ── Notify helpers ─────────────────────────────────────────────────
+let _notifyDocId = null;
+
+function openNotifyModal(docId, filename) {
+  _notifyDocId = docId;
+  document.getElementById('notify-doc-name').textContent = filename;
+  document.getElementById('notify-recipients').value = '';
+  document.getElementById('notify-message').value = '';
+  document.getElementById('notify-modal').classList.add('open');
+}
+
+async function submitNotify() {
+  const raw = document.getElementById('notify-recipients').value;
+  const recipients = raw.split('\n').map(s => s.trim()).filter(Boolean);
+  if (!recipients.length) { toast('Enter at least one email address', 'error'); return; }
+  const message = document.getElementById('notify-message').value.trim();
+  try {
+    const result = await api('POST', `/documents/${_notifyDocId}/notify`, {recipients, message});
+    closeModal('notify-modal');
+    toast(`Notified ${result.sent} recipient${result.sent!==1?'s':''}${result.failed>0?' ('+result.failed+' failed)':''}`, result.failed>0?'default':'success');
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+// ── Onboarding helpers ─────────────────────────────────────────────
+let _activeSeqId = null;
+
+async function loadSequences() {
+  const list = document.getElementById('sequences-list');
+  if (!list) return;
+  try {
+    const seqs = await api('GET', '/onboarding/sequences');
+    if (!seqs.length) {
+      list.innerHTML = `<div class="empty"><div class="empty-icon">📋</div><div class="empty-title">No sequences yet</div><div class="empty-text">Create your first sequence to define which policies new hires receive and when.</div></div>`;
+      return;
+    }
+    list.innerHTML = seqs.map(s => `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-size:13.5px;font-weight:600;color:var(--fg)">${s.name}</div>
+          ${s.description?`<div style="font-size:12px;color:var(--fg-subtle);margin-top:1px">${s.description}</div>`:''}
+          <div style="font-size:11.5px;color:var(--fg-subtle);margin-top:3px">${s.step_count||0} step${(s.step_count||0)!==1?'s':''}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-secondary btn-sm" onclick="openSeqModal(${s.id},'${s.name.replace(/'/g,"\\'")}')">Manage steps</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteSeq(${s.id})">Delete</button>
+        </div>
+      </div>`).join('');
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+function showCreateSeqForm() {
+  const f = document.getElementById('create-seq-form');
+  f.style.display = f.style.display==='none'?'block':'none';
+  if (f.style.display!=='none') setTimeout(()=>document.getElementById('new-seq-name').focus(),50);
+}
+
+async function submitCreateSeq() {
+  const name = document.getElementById('new-seq-name').value.trim();
+  const desc = document.getElementById('new-seq-desc').value.trim();
+  if (!name) { toast('Enter a sequence name', 'error'); return; }
+  try {
+    await api('POST', '/onboarding/sequences', {name, description: desc});
+    document.getElementById('new-seq-name').value='';
+    document.getElementById('new-seq-desc').value='';
+    document.getElementById('create-seq-form').style.display='none';
+    toast('Sequence created', 'success');
+    await loadSequences();
+  } catch(e) { toast(e.message, 'error'); }
+}
+
+async function deleteSeq(seqId) {
+  const ok = await showConfirm('Delete Sequence','Delete this sequence? Existing enrollments will not be affected.','Delete','btn-danger');
+  if (!ok) return;
+  try {
+    await api('DELETE',`/onboarding/sequences/${seqId}`);
+    toast('Sequence deleted');
+    await loadSequences();
+  } catch(e) { toast(e.message,'error'); }
+}
+
+async function openSeqModal(seqId, seqName) {
+  _activeSeqId = seqId;
+  document.getElementById('seq-modal-title').textContent = seqName + ' — Steps';
+  try {
+    const docs = await api('GET','/documents');
+    const sel = document.getElementById('step-doc-select');
+    sel.innerHTML = '<option value="">Select a document…</option>' + docs.map(d=>`<option value="${d.doc_id}" data-name="${d.filename}">${d.filename}</option>`).join('');
+  } catch {}
+  document.getElementById('step-subject').value='';
+  document.getElementById('step-body').value='';
+  document.getElementById('step-day').value='0';
+  document.getElementById('seq-modal').classList.add('open');
+  await refreshSeqSteps();
+}
+
+async function refreshSeqSteps() {
+  const list = document.getElementById('seq-steps-list');
+  try {
+    const steps = await api('GET',`/onboarding/sequences/${_activeSeqId}/steps`);
+    if (!steps.length) {
+      list.innerHTML=`<div style="font-size:13px;color:var(--fg-subtle);text-align:center;padding:12px 0">No steps yet — add one below.</div>`;
+      return;
+    }
+    list.innerHTML=`<div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-subtle);margin-bottom:8px">Current Steps</div>`+
+      steps.map(s=>`
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-soft);border-radius:8px;margin-bottom:6px">
+          <div>
+            <div style="font-size:13px;font-weight:500;color:var(--fg)">Day ${s.day_offset} — ${s.doc_name}</div>
+            <div style="font-size:12px;color:var(--fg-subtle)">${s.subject}</div>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="deleteStep(${s.id})">Remove</button>
+        </div>`).join('');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+async function submitAddStep() {
+  const sel = document.getElementById('step-doc-select');
+  const docId = sel.value;
+  const docName = sel.options[sel.selectedIndex]?.dataset?.name||'';
+  const dayOffset = parseInt(document.getElementById('step-day').value)||0;
+  const subject = document.getElementById('step-subject').value.trim();
+  const body = document.getElementById('step-body').value.trim();
+  if (!docId||!subject||!body) { toast('Please fill in all fields','error'); return; }
+  try {
+    await api('POST',`/onboarding/sequences/${_activeSeqId}/steps`,{doc_id:docId,doc_name:docName,day_offset:dayOffset,subject,body});
+    document.getElementById('step-subject').value='';
+    document.getElementById('step-body').value='';
+    document.getElementById('step-day').value='0';
+    await refreshSeqSteps();
+    toast('Step added','success');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+async function deleteStep(stepId) {
+  const ok = await showConfirm('Remove Step','Remove this step from the sequence?','Remove','btn-danger');
+  if (!ok) return;
+  try {
+    await api('DELETE',`/onboarding/sequences/${_activeSeqId}/steps/${stepId}`);
+    await refreshSeqSteps();
+    toast('Step removed');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+async function loadEnrollments() {
+  const list = document.getElementById('enrollments-list');
+  if (!list) return;
+  try {
+    const enrollments = await api('GET','/onboarding/enrollments');
+    if (!enrollments.length) {
+      list.innerHTML=`<div class="empty"><div class="empty-icon">👤</div><div class="empty-title">No enrollments yet</div><div class="empty-text">Enroll an employee in a sequence to start their onboarding.</div></div>`;
+      return;
+    }
+    list.innerHTML=enrollments.map(e=>`
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-size:13.5px;font-weight:600;color:var(--fg)">${e.employee_name}</div>
+          <div style="font-size:12px;color:var(--fg-muted)">${e.employee_email}</div>
+          <div style="font-size:11.5px;color:var(--fg-subtle);margin-top:3px">${e.sequence_name} · Started ${e.start_date} · ${e.sent_steps||0}/${e.total_steps||0} sent</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="chip ${e.status==='active'?'chip-green':'chip-gray'}">${e.status}</span>
+          ${e.status==='active'?`<button class="btn btn-danger btn-sm" onclick="cancelEnroll(${e.id})">Cancel</button>`:''}
+        </div>
+      </div>`).join('');
+  } catch(e) { toast(e.message,'error'); }
+}
+
+async function openEnrollModal() {
+  try {
+    const seqs = await api('GET','/onboarding/sequences');
+    const sel = document.getElementById('enroll-seq-select');
+    sel.innerHTML='<option value="">Select a sequence…</option>'+seqs.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  } catch {}
+  document.getElementById('enroll-name').value='';
+  document.getElementById('enroll-email').value='';
+  document.getElementById('enroll-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('enroll-modal').classList.add('open');
+}
+
+async function submitEnroll() {
+  const seqId = parseInt(document.getElementById('enroll-seq-select').value);
+  const name = document.getElementById('enroll-name').value.trim();
+  const email = document.getElementById('enroll-email').value.trim();
+  const startDate = document.getElementById('enroll-date').value.trim();
+  if (!seqId||!name||!email||!startDate) { toast('Please fill in all fields','error'); return; }
+  try {
+    await api('POST','/onboarding/enrollments',{sequence_id:seqId,employee_name:name,employee_email:email,start_date:startDate});
+    toast(`${name} enrolled successfully`,'success');
+    closeModal('enroll-modal');
+    await loadEnrollments();
+  } catch(e) { toast(e.message,'error'); }
+}
+
+async function cancelEnroll(id) {
+  const ok = await showConfirm('Cancel Enrollment','Cancel this enrollment? Remaining emails will not be sent.','Cancel enrollment','btn-danger');
+  if (!ok) return;
+  try {
+    await api('DELETE',`/onboarding/enrollments/${id}`);
+    toast('Enrollment cancelled');
+    await loadEnrollments();
+  } catch(e) { toast(e.message,'error'); }
 }
 
 function handleFileUpload(e) {

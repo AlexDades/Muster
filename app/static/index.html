@@ -11,16 +11,16 @@
     a{color:inherit;text-decoration:none}
 
     :root{
-      --green:#00a86e;--green-dark:#008a5a;--green-deep:#075c3d;
-      --accent:#f59e0b;
-      --green-light:#d8f3e4;--green-mid:#9cdcb9;--green-xlight:#ecfaf2;
-      --bg:#fff;--bg-soft:#f8fafc;--bg-muted:#f1f5f9;--bg-sunken:#e2e8f0;
-      --border:#e2e8f0;--border-strong:#cbd5e1;
-      --fg:#0f172a;--fg-muted:#475569;--fg-subtle:#94a3b8;
-      --red:#ef4444;--red-bg:#fee2e2;--red-text:#991b1b;
-      --shadow-sm:0 1px 3px #0f172a0d,0 1px 2px #0f172a0a;
-      --shadow-md:0 4px 12px #0f172a0f,0 1px 3px #0f172a0a;
-      --shadow-lg:0 12px 32px #0f172a14,0 2px 8px #0f172a0a;
+      --green:rgb(72,91,200);--green-dark:rgb(61,71,137);--green-deep:rgb(40,50,110);
+      --accent:#f3a10b;
+      --green-light:rgb(193,216,245);--green-mid:rgb(141,167,195);--green-xlight:rgb(235,242,251);
+      --bg:#fff;--bg-soft:rgb(235,242,251);--bg-muted:#f0f1f2;--bg-sunken:#e1e2e3;
+      --border:#e1e2e3;--border-strong:#cbcecf;
+      --fg:rgb(35,35,41);--fg-muted:#485a6c;--fg-subtle:#abb8c3;
+      --red:#e86464;--red-bg:#ffe6e6;--red-text:#640000;
+      --shadow-sm:0 1px 3px rgba(35,35,41,.08),0 1px 2px rgba(35,35,41,.05);
+      --shadow-md:0 4px 12px rgba(35,35,41,.10),0 1px 3px rgba(35,35,41,.06);
+      --shadow-lg:0 12px 32px rgba(35,35,41,.12),0 2px 8px rgba(35,35,41,.06);
       --r:10px;--sidebar-w:220px;
     }
 
@@ -35,8 +35,7 @@
     /* ── Sidebar ── */
     .sidebar{width:var(--sidebar-w);flex-shrink:0;height:100vh;overflow-y:auto;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column}
     .sidebar-logo{height:56px;display:flex;align-items:center;gap:9px;padding:0 20px;border-bottom:1px solid var(--border);flex-shrink:0}
-    .logo-dot{width:10px;height:10px;border-radius:999px;background:var(--green);animation:pulse 2.6s ease-in-out infinite;flex-shrink:0}
-    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 #00a86e80}50%{box-shadow:0 0 0 6px #00a86e00}}
+    .logo-icon{flex-shrink:0}
     .logo-name{font-size:15px;font-weight:600;color:var(--fg)}
 
     .nav{padding:12px 10px;flex:1}
@@ -124,7 +123,7 @@
     .form-group{margin-bottom:16px}
     label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;color:var(--fg)}
     input[type=text],input[type=number],select,textarea{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13.5px;font-family:inherit;background:var(--bg);color:var(--fg);outline:none;transition:border-color .15s}
-    input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px #00a86e1a}
+    input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(72,91,200,.1)}
     textarea{resize:vertical;min-height:100px}
 
     /* ── Toggle ── */
@@ -201,7 +200,7 @@
     .chat-dot:nth-child(2){animation-delay:.18s}.chat-dot:nth-child(3){animation-delay:.36s}
     @keyframes chatBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
     #chat-input{flex:1;resize:none;min-height:40px;max-height:120px;overflow-y:auto;font-family:inherit;font-size:13.5px;line-height:1.5;padding:9px 12px;border:1px solid var(--border);border-radius:10px;outline:none;transition:border-color .15s}
-    #chat-input:focus{border-color:var(--green);box-shadow:0 0 0 3px #00a86e1a}
+    #chat-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(72,91,200,.1)}
 
     /* ── Mobile ── */
     @media(max-width:768px){
@@ -262,7 +261,7 @@
     .login-overlay{position:fixed;inset:0;background:linear-gradient(var(--green-xlight),transparent 40%),var(--bg-soft);z-index:300;display:flex;align-items:center;justify-content:center}
     .login-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:40px;width:380px;max-width:95vw;box-shadow:var(--shadow-lg);text-align:center}
     .login-logo{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:24px}
-    .login-logo-dot{width:12px;height:12px;border-radius:999px;background:var(--green);animation:pulse 2.6s ease-in-out infinite}
+    .login-logo-icon{}
     .login-logo-name{font-size:20px;font-weight:600;color:var(--fg)}
     .login-title{font-size:15px;font-weight:600;color:var(--fg);margin-bottom:6px}
     .login-sub{font-size:13px;color:var(--fg-muted);margin-bottom:28px;line-height:1.55}
@@ -278,7 +277,14 @@
 <!-- Sidebar -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <span class="logo-dot"></span>
+    <svg class="logo-icon" width="30" height="21" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="14" cy="22" r="10" fill="rgb(72,91,200)"/>
+      <circle cx="26" cy="16" r="13" fill="rgb(72,91,200)"/>
+      <circle cx="38" cy="22" r="10" fill="rgb(72,91,200)"/>
+      <rect x="4" y="22" width="44" height="14" rx="2" fill="rgb(72,91,200)"/>
+      <line x1="13" y1="26" x2="39" y2="26" stroke="white" stroke-width="2.6" stroke-linecap="round"/>
+      <line x1="13" y1="32" x2="27" y2="32" stroke="white" stroke-width="2.6" stroke-linecap="round"/>
+    </svg>
     <span class="logo-name">Muster</span>
   </div>
 
@@ -393,7 +399,14 @@
 <div class="login-overlay" id="login-overlay">
   <div class="login-card">
     <div class="login-logo">
-      <span class="login-logo-dot"></span>
+      <svg class="login-logo-icon" width="44" height="30" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="14" cy="22" r="10" fill="rgb(72,91,200)"/>
+        <circle cx="26" cy="16" r="13" fill="rgb(72,91,200)"/>
+        <circle cx="38" cy="22" r="10" fill="rgb(72,91,200)"/>
+        <rect x="4" y="22" width="44" height="14" rx="2" fill="rgb(72,91,200)"/>
+        <line x1="13" y1="26" x2="39" y2="26" stroke="white" stroke-width="2.6" stroke-linecap="round"/>
+        <line x1="13" y1="32" x2="27" y2="32" stroke="white" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
       <span class="login-logo-name">Muster</span>
     </div>
     <div class="login-title">Sign in to your dashboard</div>

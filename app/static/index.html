@@ -4,16 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Muster — HR Policy Assistant</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 38'%3E%3Ccircle cx='14' cy='22' r='10' fill='%23485BC8'/%3E%3Ccircle cx='26' cy='16' r='13' fill='%23485BC8'/%3E%3Ccircle cx='38' cy='22' r='10' fill='%23485BC8'/%3E%3Crect x='4' y='22' width='44' height='14' rx='2' fill='%23485BC8'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;border:0}
     html{font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
-    body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+    body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
     a{color:inherit;text-decoration:none}
 
     :root{
-      --green:rgb(72,91,200);--green-dark:rgb(61,71,137);--green-deep:rgb(40,50,110);
-      --accent:#f3a10b;
-      --green-light:rgb(193,216,245);--green-mid:rgb(141,167,195);--green-xlight:rgb(235,242,251);
+      --primary:rgb(72,91,200);--primary-dark:rgb(61,71,137);--primary-deep:rgb(40,50,110);
+      --accent:#f3a10b;--accent-dark:#d97706;
+      --primary-light:rgb(193,216,245);--primary-mid:rgb(141,167,195);--primary-xlight:rgb(235,242,251);
       --bg:#fff;--bg-soft:rgb(235,242,251);--bg-muted:#f0f1f2;--bg-sunken:#e1e2e3;
       --border:#e1e2e3;--border-strong:#cbcecf;
       --fg:rgb(35,35,41);--fg-muted:#485a6c;--fg-subtle:#abb8c3;
@@ -43,7 +47,7 @@
     .nav-section:first-child{margin-top:0}
     .nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;color:var(--fg-muted);font-size:13.5px;font-weight:500;cursor:pointer;transition:background .15s,color .15s;margin-bottom:2px;border:none;background:none;width:100%;text-align:left}
     .nav-item:hover{background:var(--bg-muted);color:var(--fg)}
-    .nav-item.active{background:var(--green);color:#fff}
+    .nav-item.active{background:var(--primary);color:#fff}
     .nav-item .icon{width:16px;height:16px;flex-shrink:0;opacity:.75}
     .nav-item.active .icon{opacity:1}
     .nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:18px;text-align:center}
@@ -56,7 +60,7 @@
     .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
     .topbar{background:var(--bg);border-bottom:1px solid var(--border);height:56px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px}
     .topbar-left{display:flex;flex-direction:column;min-width:0}
-    .topbar-section{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--green)}
+    .topbar-section{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--primary)}
     .topbar-title{font-size:15px;font-weight:600;color:var(--fg)}
     .topbar-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
     .content{flex:1;overflow-y:auto;padding:24px}
@@ -64,16 +68,16 @@
     /* ── Buttons ── */
     .btn{display:inline-flex;align-items:center;gap:6px;height:36px;padding-inline:16px;border-radius:8px;font-size:13.5px;font-weight:500;cursor:pointer;border:none;transition:background .15s,color .15s;white-space:nowrap}
     .btn:disabled{opacity:.5;cursor:not-allowed}
-    .btn-primary{background:var(--accent);color:#fff}
-    .btn-primary:hover:not(:disabled){background:#d97706}
-    .btn-green{background:var(--green);color:#fff}
-    .btn-green:hover:not(:disabled){background:var(--green-dark)}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover:not(:disabled){background:var(--primary-dark)}
+    .btn-accent{background:var(--accent);color:#fff}
+    .btn-accent:hover:not(:disabled){background:var(--accent-dark)}
     .btn-secondary{background:transparent;color:var(--fg-muted);border:1px solid var(--border)}
     .btn-secondary:hover:not(:disabled){background:var(--bg-muted);color:var(--fg)}
     .btn-danger{background:var(--red-bg);color:var(--red-text)}
     .btn-danger:hover:not(:disabled){background:#fecaca}
-    .btn-ghost-green{background:var(--green-xlight);color:var(--green-deep);border:1px solid var(--green-mid)}
-    .btn-ghost-green:hover:not(:disabled){background:var(--green-light)}
+    .btn-ghost-primary{background:var(--primary-xlight);color:var(--primary-deep);border:1px solid var(--primary-mid)}
+    .btn-ghost-primary:hover:not(:disabled){background:var(--primary-light)}
     .btn-sm{height:28px;padding-inline:10px;font-size:12px}
     .btn-lg{height:44px;padding-inline:22px;font-size:14px;font-weight:600}
 
@@ -86,9 +90,9 @@
     /* ── Step cards (onboarding) ── */
     .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
     .step-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:22px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:14px}
-    .step-card.step-done{border-color:var(--green-mid);background:var(--green-xlight)}
-    .step-num-badge{width:32px;height:32px;border-radius:999px;background:var(--green-xlight);border:2px solid var(--green-mid);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--green-deep);flex-shrink:0}
-    .step-card.step-done .step-num-badge{background:var(--green);border-color:var(--green-dark);color:#fff}
+    .step-card.step-done{border-color:var(--primary-mid);background:var(--primary-xlight)}
+    .step-num-badge{width:32px;height:32px;border-radius:999px;background:var(--primary-xlight);border:2px solid var(--primary-mid);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--primary-deep);flex-shrink:0}
+    .step-card.step-done .step-num-badge{background:var(--primary);border-color:var(--primary-dark);color:#fff}
     .step-title{font-size:14px;font-weight:600;color:var(--fg)}
     .step-desc{font-size:13px;color:var(--fg-muted);line-height:1.55}
     .step-action{margin-top:auto}
@@ -96,15 +100,15 @@
     /* ── Stat cards ── */
     .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
     .stat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--shadow-sm)}
-    .stat-icon{width:34px;height:34px;border-radius:8px;background:var(--green-xlight);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
-    .stat-icon svg{width:17px;height:17px;color:var(--green)}
+    .stat-icon{width:34px;height:34px;border-radius:8px;background:var(--primary-xlight);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+    .stat-icon svg{width:17px;height:17px;color:var(--primary)}
     .stat-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-subtle);margin-bottom:5px}
     .stat-value{font-size:26px;font-weight:700;color:var(--fg);line-height:1}
     .stat-sub{font-size:12px;color:var(--fg-subtle);margin-top:4px}
 
     /* ── Chips ── */
     .chip{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;font-size:11.5px;font-weight:500;border:1px solid transparent}
-    .chip-green{background:var(--green-light);color:var(--green-deep);border-color:var(--green-mid)}
+    .chip-green{background:var(--primary-light);color:var(--primary-deep);border-color:var(--primary-mid)}
     .chip-gray{background:var(--bg-muted);color:var(--fg-muted);border-color:var(--border-strong)}
     .chip-amber{background:#fef3c7;color:#92400e;border-color:#fde68a}
     .chip-blue{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
@@ -117,13 +121,13 @@
     td{padding:12px 14px;border-bottom:1px solid var(--bg-muted);vertical-align:top;color:var(--fg-muted)}
     td:first-child{color:var(--fg)}
     tr:last-child td{border-bottom:none}
-    tr:hover td{background:var(--bg-soft)}
+    tr:hover td{background:var(--bg-soft);cursor:pointer}
 
     /* ── Forms ── */
     .form-group{margin-bottom:16px}
     label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;color:var(--fg)}
     input[type=text],input[type=number],select,textarea{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13.5px;font-family:inherit;background:var(--bg);color:var(--fg);outline:none;transition:border-color .15s}
-    input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(72,91,200,.1)}
+    input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(72,91,200,.1)}
     textarea{resize:vertical;min-height:100px}
 
     /* ── Toggle ── */
@@ -132,23 +136,48 @@
     .toggle input{opacity:0;width:0;height:0}
     .toggle-slider{position:absolute;inset:0;background:var(--border-strong);border-radius:24px;cursor:pointer;transition:background .2s}
     .toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-    .toggle input:checked + .toggle-slider{background:var(--green)}
+    .toggle input:checked + .toggle-slider{background:var(--primary)}
     .toggle input:checked + .toggle-slider::before{transform:translateX(20px)}
 
     /* ── Upload area ── */
     .upload-zone{border:2px dashed var(--border-strong);border-radius:14px;padding:48px 24px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:var(--bg)}
-    .upload-zone:hover,.upload-zone.drag-over{border-color:var(--green);background:var(--green-xlight)}
+    .upload-zone:hover,.upload-zone.drag-over{border-color:var(--primary);background:var(--primary-xlight)}
     .upload-zone-icon{font-size:36px;margin-bottom:12px}
     .upload-zone-title{font-size:15px;font-weight:600;color:var(--fg);margin-bottom:6px}
     .upload-zone-sub{font-size:13px;color:var(--fg-muted)}
 
     /* ── Banner ── */
     .banner{border-radius:var(--r);padding:18px 20px;display:flex;align-items:center;gap:14px;margin-bottom:20px}
-    .banner-green{background:var(--green-xlight);border:1px solid var(--green-mid)}
+    .banner-primary{background:var(--primary-xlight);border:1px solid var(--primary-mid)}
     .banner-amber{background:#fef3c7;border:1px solid #fde68a}
     .banner-icon{font-size:20px;flex-shrink:0}
     .banner-title{font-size:13.5px;font-weight:600;color:var(--fg)}
     .banner-body{font-size:13px;color:var(--fg-muted);margin-top:2px;line-height:1.5}
+    .banner-dismiss{background:none;cursor:pointer;color:var(--fg-subtle);font-size:18px;line-height:1;padding:2px 6px;border-radius:4px;flex-shrink:0;align-self:flex-start;margin-top:-2px}
+    .banner-dismiss:hover{color:var(--fg);background:rgba(0,0,0,.06)}
+
+    /* ── Skeleton ── */
+    .skeleton{background:linear-gradient(90deg,var(--bg-muted) 25%,var(--bg-sunken) 50%,var(--bg-muted) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:6px}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+    /* ── Status items ── */
+    .status-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+    .status-item:last-child{border-bottom:none}
+    .status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .dot-green{background:#22c55e}
+    .dot-amber{background:#f59e0b}
+    .dot-gray{background:var(--fg-subtle)}
+    .status-label{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--fg)}
+    .status-value{font-size:12.5px;color:var(--fg-subtle)}
+
+    /* ── Toast progress ── */
+    .toast-progress{height:3px;background:rgba(255,255,255,.25);border-radius:2px;margin-top:8px;overflow:hidden}
+    .toast-progress-fill{height:100%;background:#fff;border-radius:2px;transition:width .2s ease;width:0%}
+
+    /* ── Chat suggestions ── */
+    .chat-suggestions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .suggestion-chip{background:var(--primary-xlight);color:var(--primary-deep);border:1px solid var(--primary-mid);border-radius:20px;padding:6px 14px;font-size:12.5px;font-weight:500;cursor:pointer;transition:background .15s}
+    .suggestion-chip:hover{background:var(--primary-light)}
 
     /* ── Modal ── */
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:100;display:none;align-items:center;justify-content:center}
@@ -163,8 +192,8 @@
 
     /* ── Toast ── */
     .toast-wrap{position:fixed;bottom:24px;right:24px;z-index:200;display:flex;flex-direction:column;gap:8px}
-    .toast{background:var(--fg);color:#fff;padding:12px 18px;border-radius:10px;font-size:13.5px;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:10px;animation:slideIn .2s ease;min-width:260px}
-    .toast.success{background:var(--green-deep)}
+    .toast{background:var(--fg);color:#fff;padding:12px 18px;border-radius:10px;font-size:13.5px;box-shadow:var(--shadow-md);display:flex;flex-direction:column;gap:4px;animation:slideIn .2s ease;min-width:260px}
+    .toast.success{background:var(--primary-deep)}
     .toast.error{background:var(--red-text)}
     @keyframes slideIn{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
 
@@ -184,23 +213,23 @@
     .chat-input-bar{flex-shrink:0;border-top:1px solid var(--border);padding:14px 20px;background:var(--bg);display:flex;gap:10px;align-items:flex-end}
     .chat-msg{display:flex;gap:10px;align-items:flex-end}
     .chat-msg-user{flex-direction:row-reverse}
-    .chat-avatar{width:30px;height:30px;border-radius:999px;background:var(--green);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:-.5px}
+    .chat-avatar{width:30px;height:30px;border-radius:999px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:-.5px}
     .chat-bubble{padding:11px 15px;border-radius:16px;max-width:72%;font-size:13.5px;line-height:1.65;word-break:break-word}
     .chat-bubble p{margin:0 0 8px}.chat-bubble p:last-child{margin-bottom:0}
     .chat-bubble ul{margin:6px 0 6px 18px;padding:0}
     .chat-bubble li{margin-bottom:3px}
-    .chat-bubble-user{background:var(--green);color:#fff;border-bottom-right-radius:4px}
+    .chat-bubble-user{background:var(--primary);color:#fff;border-bottom-right-radius:4px}
     .chat-bubble-assistant{background:var(--bg);border:1px solid var(--border);color:var(--fg);border-bottom-left-radius:4px;box-shadow:var(--shadow-sm)}
-    .chat-citation{font-size:11px;color:var(--green-deep);opacity:.75;font-style:normal}
+    .chat-citation{font-size:11px;color:var(--primary-deep);opacity:.75;font-style:normal}
     .chat-sources{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px}
-    .chat-source-chip{font-size:11px;color:var(--green-deep);background:var(--green-xlight);border:1px solid var(--green-mid);border-radius:5px;padding:2px 9px;text-decoration:none;transition:background .15s}
-    .chat-source-chip:hover{background:var(--green-light)}
+    .chat-source-chip{font-size:11px;color:var(--primary-deep);background:var(--primary-xlight);border:1px solid var(--primary-mid);border-radius:5px;padding:2px 9px;text-decoration:none;transition:background .15s}
+    .chat-source-chip:hover{background:var(--primary-light)}
     .chat-typing{padding:11px 15px;border-radius:16px;border-bottom-left-radius:4px;background:var(--bg);border:1px solid var(--border);display:inline-flex;gap:5px;align-items:center;box-shadow:var(--shadow-sm)}
     .chat-dot{width:7px;height:7px;border-radius:50%;background:var(--fg-subtle);animation:chatBounce 1.2s ease-in-out infinite}
     .chat-dot:nth-child(2){animation-delay:.18s}.chat-dot:nth-child(3){animation-delay:.36s}
     @keyframes chatBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
     #chat-input{flex:1;resize:none;min-height:40px;max-height:120px;overflow-y:auto;font-family:inherit;font-size:13.5px;line-height:1.5;padding:9px 12px;border:1px solid var(--border);border-radius:10px;outline:none;transition:border-color .15s}
-    #chat-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(72,91,200,.1)}
+    #chat-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(72,91,200,.1)}
 
     /* ── Mobile ── */
     @media(max-width:768px){
@@ -210,29 +239,20 @@
       .main{width:100%}
       .topbar{padding:0 12px;gap:8px}
       .content{padding:14px}
-      /* Hide topbar action buttons — accessible inside each page */
       #topbar-upload-btn,#global-process-btn{display:none}
-      /* Grids */
       .steps-grid{grid-template-columns:1fr}
       .stats-grid{grid-template-columns:repeat(2,1fr)}
-      /* Cards */
       .card-header{flex-wrap:wrap;gap:8px}
       .draft-card{padding:14px}
       .draft-meta{flex-wrap:wrap}
-      /* Modal full-width */
       .modal{width:96vw;margin:0 auto}
-      /* Filters stack */
       .filters{flex-direction:column;align-items:stretch}
       .filters select,.filters input{width:100%}
-      /* Banner */
       .banner{flex-direction:column;gap:8px}
-      /* Chat: use dvh so keyboard doesn't break layout */
       .chat-wrap{height:100%;height:100dvh;max-height:calc(100dvh - 56px)}
       .chat-bubble{max-width:88%}
       .chat-input-bar{padding:10px 12px}
-      /* Login */
       .login-card{padding:28px 20px}
-      /* Tables */
       th,td{padding:8px 10px}
     }
 
@@ -258,10 +278,9 @@
     .page-info{font-size:13px;color:var(--fg-subtle)}
 
     /* ── Login overlay ── */
-    .login-overlay{position:fixed;inset:0;background:linear-gradient(var(--green-xlight),transparent 40%),var(--bg-soft);z-index:300;display:flex;align-items:center;justify-content:center}
+    .login-overlay{position:fixed;inset:0;background:linear-gradient(var(--primary-xlight),transparent 40%),var(--bg-soft);z-index:300;display:flex;align-items:center;justify-content:center}
     .login-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:40px;width:380px;max-width:95vw;box-shadow:var(--shadow-lg);text-align:center}
     .login-logo{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:24px}
-    .login-logo-icon{}
     .login-logo-name{font-size:20px;font-weight:600;color:var(--fg)}
     .login-title{font-size:15px;font-weight:600;color:var(--fg);margin-bottom:6px}
     .login-sub{font-size:13px;color:var(--fg-muted);margin-bottom:28px;line-height:1.55}
@@ -289,25 +308,25 @@
   </div>
 
   <nav class="nav">
-    <div class="nav-section">Get Started</div>
+    <div class="nav-section">Overview</div>
     <button class="nav-item active" onclick="navigate('dashboard', this)">
       <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
       Dashboard
     </button>
 
-    <div class="nav-section">Step 1 — Knowledge Base</div>
+    <div class="nav-section">Knowledge Base</div>
     <button class="nav-item" onclick="navigate('documents', this)">
       <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
       Upload Policy Docs
     </button>
 
-    <div class="nav-section">Step 2 — Inbox</div>
+    <div class="nav-section">Email</div>
     <button class="nav-item" onclick="navigate('inbox', this)">
       <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5v-3h3.56c.69 1.19 1.97 2 3.45 2s2.75-.81 3.45-2H19v3zm0-5h-4.99c0 1.1-.9 2-2.01 2s-2.01-.9-2.01-2H5V5h14v9z"/></svg>
       Process Inbox
     </button>
 
-    <div class="nav-section">Step 3 — Chat</div>
+    <div class="nav-section">Chat</div>
     <button class="nav-item" onclick="navigate('chat', this)">
       <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
       Chat Assistant
@@ -323,6 +342,8 @@
       <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
       Audit Log
     </button>
+
+    <div class="nav-section">System</div>
     <button class="nav-item" onclick="navigate('settings', this)">
       <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
       Settings
@@ -348,7 +369,7 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
     </button>
     <div class="topbar-left">
-      <div class="topbar-section" id="page-section">Get Started</div>
+      <div class="topbar-section" id="page-section">Overview</div>
       <span class="topbar-title" id="page-title">Dashboard</span>
     </div>
     <div class="topbar-actions" id="topbar-actions">
@@ -356,17 +377,65 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
         New Conversation
       </button>
-      <button class="btn btn-green" id="topbar-upload-btn" onclick="document.getElementById('file-input').click()">
+      <button class="btn btn-primary" id="topbar-upload-btn" onclick="document.getElementById('file-input').click()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         Upload Policy Doc
       </button>
-      <button class="btn btn-primary" id="global-process-btn" onclick="navigateAndProcess()">
+      <button class="btn btn-accent" id="global-process-btn" onclick="navigateAndProcess()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         Process Inbox
       </button>
     </div>
   </header>
   <div class="content" id="content"></div>
+</div>
+
+<!-- Confirm modal -->
+<div class="overlay" id="confirm-modal">
+  <div class="modal" style="width:420px">
+    <div class="modal-header">
+      <span class="modal-title" id="confirm-title">Confirm</span>
+      <button class="modal-close" id="confirm-cancel-btn" onclick="closeModal('confirm-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p id="confirm-body" style="font-size:13.5px;color:var(--fg-muted);line-height:1.65"></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="confirm-cancel-btn2" onclick="closeModal('confirm-modal')">Cancel</button>
+      <button class="btn btn-primary" id="confirm-ok-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reject modal -->
+<div class="overlay" id="reject-modal">
+  <div class="modal" style="width:440px">
+    <div class="modal-header">
+      <span class="modal-title">Reject Draft</span>
+      <button class="modal-close" id="reject-cancel-btn" onclick="closeModal('reject-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Reason <span style="color:var(--fg-subtle);font-weight:400">(optional)</span></label>
+        <textarea id="reject-note" rows="3" placeholder="Why is this reply being rejected?"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="reject-cancel-btn2" onclick="closeModal('reject-modal')">Cancel</button>
+      <button class="btn btn-danger" id="reject-ok-btn">Reject Draft</button>
+    </div>
+  </div>
+</div>
+
+<!-- Audit detail modal -->
+<div class="overlay" id="audit-detail-modal">
+  <div class="modal" style="width:580px">
+    <div class="modal-header">
+      <span class="modal-title">Email Record</span>
+      <button class="modal-close" onclick="closeModal('audit-detail-modal')">✕</button>
+    </div>
+    <div class="modal-body" id="audit-detail-body"></div>
+  </div>
 </div>
 
 <!-- Approve/Edit Modal -->
@@ -385,7 +454,6 @@
         <label>Proposed Reply — edit if needed</label>
         <textarea id="modal-answer" rows="6"></textarea>
       </div>
-      <p style="font-size:12px;color:var(--fg-subtle)">Edit the reply above if needed, then click "Approve &amp; Send" to send it.</p>
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('approve-modal')">Cancel</button>
@@ -399,7 +467,7 @@
 <div class="login-overlay" id="login-overlay">
   <div class="login-card">
     <div class="login-logo">
-      <svg class="login-logo-icon" width="44" height="30" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <svg width="44" height="30" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="14" cy="22" r="10" fill="rgb(72,91,200)"/>
         <circle cx="26" cy="16" r="13" fill="rgb(72,91,200)"/>
         <circle cx="38" cy="22" r="10" fill="rgb(72,91,200)"/>
@@ -409,12 +477,13 @@
       </svg>
       <span class="login-logo-name">Muster</span>
     </div>
-    <div class="login-title">Sign in to your dashboard</div>
-    <div class="login-sub">Enter your API key to access the HR Policy Assistant.<br>Default key: <strong>muster-dev-key</strong></div>
-    <input type="password" id="login-key" placeholder="API key" autocomplete="current-password"
+    <div class="login-title">Sign in to Muster</div>
+    <div class="login-sub">Enter your access key to continue.</div>
+    <input type="password" id="login-key" placeholder="Access key" autocomplete="current-password"
       onkeydown="if(event.key==='Enter')submitLogin()" />
     <button class="btn btn-primary" onclick="submitLogin()">Sign in →</button>
     <div class="login-error" id="login-error"></div>
+    <div style="margin-top:12px;font-size:12px;color:var(--fg-subtle)"><a href="mailto:admin" style="color:var(--primary)">Need help? Contact your administrator.</a></div>
   </div>
 </div>
 
@@ -426,9 +495,9 @@
 <script>
 // ── Auth ───────────────────────────────────────────────────────────
 const TOKEN_KEY = 'muster:token';
-function getToken() { return sessionStorage.getItem(TOKEN_KEY); }
-function setToken(t) { sessionStorage.setItem(TOKEN_KEY, t); }
-function clearToken() { sessionStorage.removeItem(TOKEN_KEY); }
+function getToken() { return localStorage.getItem(TOKEN_KEY); }
+function setToken(t) { localStorage.setItem(TOKEN_KEY, t); }
+function clearToken() { localStorage.removeItem(TOKEN_KEY); }
 
 function showLogin() {
   document.getElementById('login-overlay').style.display = 'flex';
@@ -446,7 +515,7 @@ async function submitLogin() {
       method: 'POST', headers: {'Content-Type':'application/json'},
       body: JSON.stringify({api_key: key}),
     });
-    if (!r.ok) { document.getElementById('login-error').textContent = 'Invalid API key.'; return; }
+    if (!r.ok) { document.getElementById('login-error').textContent = 'Invalid access key.'; return; }
     const {access_token} = await r.json();
     setToken(access_token);
     document.getElementById('login-key').value = '';
@@ -460,6 +529,53 @@ async function submitLogin() {
 
 function logout() { clearToken(); showLogin(); }
 
+// ── Banner helpers ─────────────────────────────────────────────────
+function isBannerDismissed(id) {
+  try { return JSON.parse(localStorage.getItem('muster:dismissed') || '[]').includes(id); } catch { return false; }
+}
+function dismissBanner(id) {
+  try { const d = JSON.parse(localStorage.getItem('muster:dismissed') || '[]'); if (!d.includes(id)) { d.push(id); localStorage.setItem('muster:dismissed', JSON.stringify(d)); } } catch {}
+  const el = document.getElementById('banner-' + id);
+  if (el) el.style.display = 'none';
+}
+function banner(id, type, svgIcon, title, body) {
+  if (isBannerDismissed(id)) return '';
+  return `<div class="banner banner-${type}" id="banner-${id}" style="position:relative">
+    <div class="banner-icon">${svgIcon}</div>
+    <div style="flex:1"><div class="banner-title">${title}</div><div class="banner-body">${body}</div></div>
+    <button class="banner-dismiss" onclick="dismissBanner('${id}')" aria-label="Dismiss">×</button>
+  </div>`;
+}
+const infoIcon = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" fill="var(--primary-light)" stroke="var(--primary-mid)" stroke-width="1.2"/><line x1="9" y1="8" x2="9" y2="13" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="5.5" r=".85" fill="var(--primary)"/></svg>`;
+const warnIcon = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5L16.5 15.5H1.5L9 1.5Z" fill="#fef3c7" stroke="#fde68a" stroke-width="1.2"/><line x1="9" y1="7" x2="9" y2="11.5" stroke="#92400e" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="13.2" r=".85" fill="#92400e"/></svg>`;
+
+// ── Confirm / Reject dialogs ───────────────────────────────────────
+function showConfirm(title, body, okLabel = 'Confirm', okClass = 'btn-primary') {
+  return new Promise(resolve => {
+    document.getElementById('confirm-title').textContent = title;
+    document.getElementById('confirm-body').textContent = body;
+    const btn = document.getElementById('confirm-ok-btn');
+    btn.textContent = okLabel;
+    btn.className = 'btn ' + okClass;
+    const done = val => { closeModal('confirm-modal'); resolve(val); };
+    btn.onclick = () => done(true);
+    document.getElementById('confirm-cancel-btn').onclick = () => done(false);
+    document.getElementById('confirm-cancel-btn2').onclick = () => done(false);
+    document.getElementById('confirm-modal').classList.add('open');
+  });
+}
+function showRejectDialog() {
+  return new Promise(resolve => {
+    document.getElementById('reject-note').value = '';
+    const done = val => { closeModal('reject-modal'); resolve(val); };
+    document.getElementById('reject-ok-btn').onclick = () => done(document.getElementById('reject-note').value.trim());
+    document.getElementById('reject-cancel-btn').onclick = () => done(null);
+    document.getElementById('reject-cancel-btn2').onclick = () => done(null);
+    document.getElementById('reject-modal').classList.add('open');
+    setTimeout(() => document.getElementById('reject-note').focus(), 50);
+  });
+}
+
 // ── State ──────────────────────────────────────────────────────────
 let currentPage = 'dashboard';
 let activeDraftId = null;
@@ -467,6 +583,8 @@ let auditOffset = 0;
 const AUDIT_LIMIT = 20;
 let auditStatusFilter = '';
 let auditSenderFilter = '';
+let _chatMessages = null;
+let _auditEntries = [];
 
 // ── Navigation ─────────────────────────────────────────────────────
 function toggleSidebar() {
@@ -479,22 +597,25 @@ function closeSidebar() {
 }
 
 function navigate(page, el) {
+  if (currentPage === 'chat') {
+    const msgsEl = document.getElementById('chat-messages');
+    if (msgsEl) _chatMessages = msgsEl.innerHTML;
+  }
   closeSidebar();
   currentPage = page;
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   if (el) el.classList.add('active');
   const titles = {
-    dashboard: ['Get Started', 'Dashboard'],
-    documents: ['Step 1 — Knowledge Base', 'Upload Policy Documents'],
-    inbox: ['Step 2 — Inbox', 'Process Inbox'],
-    chat: ['Step 3 — Chat', 'HR Policy Assistant'],
+    dashboard: ['Overview', 'Dashboard'],
+    documents: ['Knowledge Base', 'Upload Policy Documents'],
+    inbox: ['Email', 'Process Inbox'],
+    chat: ['Chat', 'HR Policy Assistant'],
     drafts: ['Review', 'Review Drafts'],
     audit: ['Review', 'Audit Log'],
-    settings: ['Review', 'Settings'],
+    settings: ['System', 'Settings'],
   };
   document.getElementById('page-section').textContent = titles[page][0];
   document.getElementById('page-title').textContent = titles[page][1];
-  // Chat needs full-height layout with no padding; show New Chat button
   const contentEl = document.getElementById('content');
   const newChatBtn = document.getElementById('new-chat-btn');
   if (page === 'chat') {
@@ -530,9 +651,10 @@ function toast(msg, type = 'default') {
   const el = document.createElement('div');
   el.className = `toast ${type}`;
   const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
-  el.innerHTML = `<span>${icon}</span> ${msg}`;
+  el.innerHTML = `<div style="display:flex;align-items:center;gap:10px"><span>${icon}</span> ${msg}</div>`;
   document.getElementById('toast-wrap').appendChild(el);
   setTimeout(() => el.remove(), 3500);
+  return el;
 }
 
 function statusChip(status) {
@@ -547,19 +669,36 @@ function validChip(v) {
     : `<span class="chip chip-red">✕ flagged</span>`;
 }
 
-function setContent(h) { document.getElementById('content').innerHTML = h; }
+function setContent(h) {
+  const el = document.getElementById('content');
+  el.innerHTML = h;
+  el.animate([{opacity:0,transform:'translateY(5px)'},{opacity:1,transform:'translateY(0)'}],{duration:160,easing:'ease',fill:'forwards'});
+}
+
+function musterAvatar() {
+  return `<div class="chat-avatar"><svg width="20" height="14" viewBox="0 0 52 38" fill="none"><circle cx="14" cy="22" r="10" fill="white"/><circle cx="26" cy="16" r="13" fill="white"/><circle cx="38" cy="22" r="10" fill="white"/><rect x="4" y="22" width="44" height="14" rx="2" fill="white"/></svg></div>`;
+}
 
 // ── Dashboard ──────────────────────────────────────────────────────
 const pages = {
   async dashboard() {
-    setContent(`<div style="text-align:center;padding:40px;color:var(--fg-subtle)">Loading…</div>`);
-    let docs = [], drafts = [], audit = {total:0}, auditSent = {total:0};
+    setContent(`<div style="display:flex;flex-direction:column;gap:16px">
+      <div class="steps-grid">
+        ${[1,2,3].map(i => `<div class="step-card"><div style="display:flex;align-items:center;gap:10px"><div class="skeleton" style="width:32px;height:32px;border-radius:999px"></div><div class="skeleton" style="height:16px;width:120px"></div></div><div class="skeleton" style="height:40px;border-radius:6px;margin-top:4px"></div><div class="skeleton" style="height:36px;border-radius:8px;margin-top:auto"></div></div>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        ${[1,2,3,4].map(() => `<div class="stat-card"><div class="skeleton" style="width:34px;height:34px;border-radius:8px;margin-bottom:10px"></div><div class="skeleton" style="height:11px;width:80px;margin-bottom:8px"></div><div class="skeleton" style="height:26px;width:50px"></div></div>`).join('')}
+      </div>
+    </div>`);
+
+    let docs = [], drafts = [], audit = {total:0}, auditSent = {total:0}, sett = {};
     try {
-      [docs, drafts, audit, auditSent] = await Promise.all([
+      [docs, drafts, audit, auditSent, sett] = await Promise.all([
         api('GET', '/documents'),
         api('GET', '/drafts'),
         api('GET', '/audit?limit=1'),
         api('GET', '/audit?status=sent&limit=1'),
+        api('GET', '/settings'),
       ]);
     } catch(e) { toast(e.message, 'error'); }
 
@@ -567,16 +706,10 @@ const pages = {
     const step1Done = docCount > 0;
     const step2Done = audit.total > 0;
     const step3Done = drafts.length === 0 && step2Done;
+    const pollSecs = sett.poll_interval_seconds || 60;
 
     setContent(`
-      ${!step1Done ? `
-      <div class="banner banner-amber">
-        <div class="banner-icon">👋</div>
-        <div>
-          <div class="banner-title">Welcome! Start by uploading your HR policy documents.</div>
-          <div class="banner-body">Muster needs your policy files to answer questions accurately. Upload at least one PDF or Word document before processing emails.</div>
-        </div>
-      </div>` : ''}
+      ${!step1Done ? banner('welcome', 'amber', warnIcon, 'Welcome! Start by uploading your HR policy documents.', 'Muster needs your policy files to answer questions accurately. Upload at least one PDF or Word document before processing emails.') : ''}
 
       <div class="steps-grid">
         <div class="step-card ${step1Done ? 'step-done' : ''}">
@@ -586,7 +719,7 @@ const pages = {
           </div>
           <div class="step-desc">Upload your HR policy files (PDF or Word). Muster reads them to answer employee questions accurately.</div>
           <div class="step-action">
-            <button class="btn btn-green" style="width:100%;justify-content:center" onclick="navigate('documents',document.querySelectorAll('.nav-item')[1])">
+            <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="navigate('documents',document.querySelectorAll('.nav-item')[1])">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
               ${step1Done ? 'Manage Documents' : 'Upload Documents →'}
             </button>
@@ -600,7 +733,7 @@ const pages = {
           </div>
           <div class="step-desc">Click "Process Inbox" to read unread emails from your Gmail, generate AI replies, and send them automatically.</div>
           <div class="step-action">
-            <button class="btn btn-primary" id="dash-process-btn" style="width:100%;justify-content:center" onclick="navigateAndProcess()" ${!step1Done ? 'disabled title="Upload documents first"' : ''}>
+            <button class="btn btn-accent" id="dash-process-btn" style="width:100%;justify-content:center" onclick="navigateAndProcess()" ${!step1Done ? 'disabled title="Upload documents first"' : ''}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               Process Inbox Now →
             </button>
@@ -614,7 +747,7 @@ const pages = {
           </div>
           <div class="step-desc">In Human Review mode, replies are saved as drafts for you to approve before sending. Enable this in Settings.</div>
           <div class="step-action">
-            <button class="btn ${drafts.length>0 ? 'btn-primary' : 'btn-secondary'}" style="width:100%;justify-content:center" onclick="navigate('drafts',document.querySelectorAll('.nav-item')[3])">
+            <button class="btn ${drafts.length>0 ? 'btn-primary' : 'btn-secondary'}" style="width:100%;justify-content:center" onclick="navigate('drafts',document.querySelectorAll('.nav-item')[4])">
               ${drafts.length > 0 ? `Review ${drafts.length} Draft${drafts.length>1?'s':''} →` : 'View Drafts'}
             </button>
           </div>
@@ -648,6 +781,24 @@ const pages = {
         </div>
       </div>
 
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-header"><span class="card-title">System Status</span></div>
+        <div class="card-body">
+          <div class="status-item">
+            <span class="status-label"><span class="status-dot ${sett.gmail_connected ? 'dot-green' : 'dot-gray'}"></span>Gmail</span>
+            <span class="status-value">${sett.gmail_connected ? (sett.gmail_address || 'Connected') : 'Not connected'}</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label"><span class="status-dot dot-green"></span>Auto-poller</span>
+            <span class="status-value">Every ${pollSecs}s</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label"><span class="status-dot ${docCount > 0 ? 'dot-green' : 'dot-amber'}"></span>Knowledge Base</span>
+            <span class="status-value">${docCount > 0 ? `${docCount} document${docCount>1?'s':''} indexed` : 'No documents — upload one to get started'}</span>
+          </div>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-header"><span class="card-title">Recent Activity</span></div>
         <div class="card-body" id="recent-activity">
@@ -667,7 +818,7 @@ const pages = {
             ${statusChip(e.status)}
           </div>`).join('') + `
           <div style="padding-top:12px;text-align:right">
-            <button class="btn btn-secondary btn-sm" onclick="navigate('audit',document.querySelectorAll('.nav-item')[4])">View all →</button>
+            <button class="btn btn-secondary btn-sm" onclick="navigate('audit',document.querySelectorAll('.nav-item')[5])">View all →</button>
           </div>`;
       }
     } catch {}
@@ -678,13 +829,7 @@ const pages = {
 // ── Documents ──────────────────────────────────────────────────────
   async documents() {
     setContent(`
-      <div class="banner banner-green">
-        <div class="banner-icon">📄</div>
-        <div>
-          <div class="banner-title">Upload your HR policy documents here</div>
-          <div class="banner-body">Muster reads these files to answer employee questions. Supported formats: PDF and Word (.docx). Upload as many as you need.</div>
-        </div>
-      </div>
+      ${banner('docs-info', 'primary', infoIcon, 'Upload your HR policy documents here', 'Muster reads these files to answer employee questions. Supported formats: PDF and Word (.docx). Upload as many as you need.')}
 
       <div class="upload-zone" id="upload-area"
         onclick="document.getElementById('file-input').click()"
@@ -694,7 +839,7 @@ const pages = {
         <div class="upload-zone-icon">📂</div>
         <div class="upload-zone-title">Drop your policy files here</div>
         <div class="upload-zone-sub">PDF or Word (.docx) — or click anywhere in this box to browse</div>
-        <button class="btn btn-green btn-lg" style="margin-top:18px;pointer-events:none">
+        <button class="btn btn-primary btn-lg" style="margin-top:18px;pointer-events:none">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           Choose Files to Upload
         </button>
@@ -720,12 +865,23 @@ const pages = {
 
 // ── Inbox ──────────────────────────────────────────────────────────
   async inbox() {
+    let sett = {human_review_mode: false, poll_interval_seconds: 60};
+    try { sett = await api('GET', '/settings'); } catch {}
+    const pollSecs = sett.poll_interval_seconds || 60;
+
     setContent(`
-      <div class="banner banner-green">
-        <div class="banner-icon">📬</div>
-        <div>
-          <div class="banner-title">Processing reads your Gmail and sends AI replies automatically</div>
-          <div class="banner-body">Muster reads unread emails from your Gmail inbox, generates answers from your policy documents, and replies directly to the sender. The reply appears in the sender's inbox, not here.</div>
+      ${banner('inbox-info', 'primary', infoIcon, 'Processing reads your Gmail and sends AI replies automatically', 'Muster reads unread emails from your Gmail inbox, generates answers from your policy documents, and replies directly to the sender. The reply appears in the sender\'s inbox, not here.')}
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--fg);margin-bottom:4px">Human Review Mode</div>
+            <div style="font-size:13px;color:var(--fg-muted)">When ON, replies are saved as drafts for your approval. When OFF, replies are sent automatically.</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="inbox-review-toggle" ${sett.human_review_mode ? 'checked' : ''} onchange="saveSetting('human_review_mode',this.checked)" />
+            <span class="toggle-slider"></span>
+          </label>
         </div>
       </div>
 
@@ -733,9 +889,9 @@ const pages = {
         <div class="card-body" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
           <div>
             <div style="font-size:14px;font-weight:600;color:var(--fg);margin-bottom:4px">Ready to process your inbox?</div>
-            <div style="font-size:13px;color:var(--fg-muted)">Click the button to read all unread emails and send AI-generated replies. <strong>Make sure you've uploaded policy documents first.</strong></div>
+            <div style="font-size:13px;color:var(--fg-muted)">Click the button to read all unread emails and send AI-generated replies. <strong>Make sure you've uploaded policy documents first.</strong><br><span style="color:var(--fg-subtle)">Muster also checks for new emails automatically every ${pollSecs}s in the background.</span></div>
           </div>
-          <button class="btn btn-primary btn-lg" id="process-btn" onclick="processInbox()">
+          <button class="btn btn-accent btn-lg" id="process-btn" onclick="processInbox()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             Process Inbox Now
           </button>
@@ -809,20 +965,33 @@ const pages = {
 
 // ── Chat ───────────────────────────────────────────────────────────
   chat() {
+    const suggestions = [
+      'How many days of annual leave am I entitled to?',
+      'What is the remote work policy?',
+      'How do I submit an expense claim?',
+    ];
+    const greetingHtml = `
+      <div class="chat-msg">
+        ${musterAvatar()}
+        <div>
+          <div class="chat-bubble chat-bubble-assistant">
+            <p>Hi! I'm your HR Policy Assistant. Ask me anything about leave, remote work, expenses, benefits, or any other HR policy topic.</p>
+          </div>
+          <div class="chat-suggestions">
+            ${suggestions.map(s => `<button class="suggestion-chip" onclick="useSuggestion(this.textContent)">${s}</button>`).join('')}
+          </div>
+        </div>
+      </div>`;
+
     setContent(`
       <div class="chat-wrap">
         <div class="chat-messages" id="chat-messages">
-          <div class="chat-msg">
-            <div class="chat-avatar">M</div>
-            <div class="chat-bubble chat-bubble-assistant">
-              <p>Hi! I'm your HR Policy Assistant. Ask me anything about leave, remote work, expenses, benefits, or any other HR policy topic.</p>
-            </div>
-          </div>
+          ${_chatMessages !== null ? _chatMessages : greetingHtml}
         </div>
         <div class="chat-input-bar">
           <textarea id="chat-input" placeholder="Ask a policy question… (Enter to send, Shift+Enter for newline)"
             onkeydown="handleChatKey(event)" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
-          <button class="btn btn-green" id="chat-send-btn" onclick="sendChatMessage()" style="height:40px;flex-shrink:0">
+          <button class="btn btn-primary" id="chat-send-btn" onclick="sendChatMessage()" style="height:40px;flex-shrink:0">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             Send
           </button>
@@ -834,24 +1003,50 @@ const pages = {
 // ── Settings ───────────────────────────────────────────────────────
   async settings() {
     setContent(`
-      <div class="card" style="max-width:560px">
-        <div class="card-header"><span class="card-title">Runtime Settings</span></div>
-        <div class="card-body">
-          <div class="form-group">
-            <label>Human Review Mode</label>
-            <div class="toggle-wrap">
-              <label class="toggle">
-                <input type="checkbox" id="review-toggle" onchange="saveSetting('human_review_mode',this.checked)" />
-                <span class="toggle-slider"></span>
-              </label>
-              <span style="font-size:13.5px;color:var(--fg-muted)">When ON, replies are saved as drafts for your approval before sending. When OFF, replies are sent automatically.</span>
+      <div style="max-width:560px;display:flex;flex-direction:column;gap:20px">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Runtime Settings</span></div>
+          <div class="card-body">
+            <div class="form-group">
+              <label>Human Review Mode</label>
+              <div class="toggle-wrap">
+                <label class="toggle">
+                  <input type="checkbox" id="review-toggle" onchange="saveSetting('human_review_mode',this.checked)" />
+                  <span class="toggle-slider"></span>
+                </label>
+                <span style="font-size:13.5px;color:var(--fg-muted)">When ON, replies are saved as drafts for your approval before sending. When OFF, replies are sent automatically.</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="form-group">
+              <label>Answer Depth</label>
+              <select id="depth-select" onchange="saveSetting('n_results', parseInt(this.value))">
+                <option value="3">Fast (3 excerpts)</option>
+                <option value="5">Balanced — recommended (5)</option>
+                <option value="10">Thorough (10)</option>
+                <option value="15">Expert (15)</option>
+              </select>
+              <div style="font-size:12px;color:var(--fg-subtle);margin-top:6px">Number of policy document excerpts passed to Claude per question. Higher = more context, slower response.</div>
             </div>
           </div>
-          <div class="divider"></div>
-          <div class="form-group">
-            <label>Chunks Retrieved per Question <span style="color:var(--fg-subtle);font-weight:400">(n_results)</span></label>
-            <input type="number" id="n-results" min="1" max="20" style="width:100px" onchange="saveSetting('n_results',parseInt(this.value))" />
-            <div style="font-size:12px;color:var(--fg-subtle);margin-top:6px">Number of policy document excerpts passed to Claude per question (1–20). Higher = more context, slower response.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Connections</span></div>
+          <div class="card-body" id="connections-body">
+            <div class="skeleton" style="height:40px;margin-bottom:12px"></div>
+            <div class="skeleton" style="height:40px;margin-bottom:12px"></div>
+            <div class="skeleton" style="height:40px"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Account</span></div>
+          <div class="card-body">
+            <button class="btn btn-secondary" onclick="logout()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+              Sign out
+            </button>
           </div>
         </div>
       </div>`);
@@ -859,7 +1054,23 @@ const pages = {
     try {
       const s = await api('GET', '/settings');
       document.getElementById('review-toggle').checked = s.human_review_mode;
-      document.getElementById('n-results').value = s.n_results;
+      const depthSel = document.getElementById('depth-select');
+      const opts = [3, 5, 10, 15];
+      const closest = opts.reduce((a, b) => Math.abs(b - s.n_results) < Math.abs(a - s.n_results) ? b : a);
+      depthSel.value = String(closest);
+      document.getElementById('connections-body').innerHTML = `
+        <div class="status-item">
+          <span class="status-label"><span class="status-dot ${s.gmail_connected ? 'dot-green' : 'dot-gray'}"></span>Gmail</span>
+          <span class="status-value">${s.gmail_connected ? (s.gmail_address || 'Connected') : 'Not connected'}</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label"><span class="status-dot dot-gray"></span>Allowed senders</span>
+          <span class="status-value" style="max-width:280px;text-align:right">${s.allowed_senders || 'All senders allowed'}</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label"><span class="status-dot dot-green"></span>Poll interval</span>
+          <span class="status-value">Every ${s.poll_interval_seconds}s</span>
+        </div>`;
     } catch(e) { toast(e.message, 'error'); }
   }
 };
@@ -874,28 +1085,54 @@ async function loadDocs() {
       return;
     }
     el.innerHTML = `<table>
-      <thead><tr><th>Filename</th><th>Document ID</th><th></th></tr></thead>
+      <thead><tr><th>Filename</th><th></th></tr></thead>
       <tbody>` + docs.map(d => `<tr>
         <td style="font-weight:500">${d.filename}</td>
-        <td style="font-family:monospace;font-size:12px;color:var(--fg-subtle)">${d.doc_id}</td>
         <td style="text-align:right"><button class="btn btn-danger btn-sm" onclick="deleteDoc('${d.doc_id}','${d.filename}')">Remove</button></td>
       </tr>`).join('') + `</tbody></table>`;
   } catch(e) { toast(e.message, 'error'); }
 }
 
-async function handleFileUpload(e) {
+function handleFileUpload(e) {
   const file = e.target.files[0]; if (!file) return;
   e.target.value = '';
   const fd = new FormData(); fd.append('file', file);
-  toast(`Uploading "${file.name}"…`);
-  try {
-    const r = await fetch('/documents', {method:'POST', body:fd});
-    if (!r.ok) { const err = await r.json(); throw new Error(err.detail); }
-    const data = await r.json();
-    toast(`"${data.filename}" uploaded — ${data.chunks} passages indexed`, 'success');
-    if (currentPage === 'documents') await loadDocs();
-    if (currentPage === 'dashboard') pages.dashboard();
-  } catch(e) { toast(e.message, 'error'); }
+
+  const toastEl = document.createElement('div');
+  toastEl.className = 'toast';
+  toastEl.innerHTML = `<div style="display:flex;align-items:center;gap:10px"><span>⬆</span> Uploading "${file.name}"…</div><div class="toast-progress"><div class="toast-progress-fill" id="upload-progress-fill"></div></div>`;
+  document.getElementById('toast-wrap').appendChild(toastEl);
+
+  const token = getToken();
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/documents');
+  if (token) xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+
+  xhr.upload.onprogress = ev => {
+    if (ev.lengthComputable) {
+      const pct = Math.round((ev.loaded / ev.total) * 100);
+      const fill = document.getElementById('upload-progress-fill');
+      if (fill) fill.style.width = pct + '%';
+    }
+  };
+
+  xhr.onload = () => {
+    toastEl.remove();
+    if (xhr.status >= 200 && xhr.status < 300) {
+      let data = {};
+      try { data = JSON.parse(xhr.responseText); } catch {}
+      toast(`"${data.filename || file.name}" uploaded — ${data.chunks || 0} passages indexed`, 'success');
+      if (currentPage === 'documents') loadDocs();
+      if (currentPage === 'dashboard') pages.dashboard();
+    } else {
+      let detail = xhr.statusText;
+      try { detail = JSON.parse(xhr.responseText).detail || detail; } catch {}
+      toast(detail, 'error');
+    }
+  };
+
+  xhr.onerror = () => { toastEl.remove(); toast('Upload failed — network error', 'error'); };
+  xhr.send(fd);
 }
 
 function handleFileDrop(e) {
@@ -906,7 +1143,8 @@ function handleFileDrop(e) {
 }
 
 async function deleteDoc(docId, filename) {
-  if (!confirm(`Remove "${filename}" from the knowledge base?`)) return;
+  const ok = await showConfirm('Remove Document', `Remove "${filename}" from the knowledge base? This cannot be undone.`, 'Remove', 'btn-danger');
+  if (!ok) return;
   try {
     await api('DELETE', `/documents/${docId}`);
     toast('Document removed from knowledge base', 'success');
@@ -916,6 +1154,14 @@ async function deleteDoc(docId, filename) {
 
 // ── Inbox helpers ──────────────────────────────────────────────────
 async function processInbox() {
+  const confirmed = await showConfirm(
+    'Process Inbox',
+    'This will read all unread emails and send AI-generated replies. Make sure your policy documents are up to date before continuing.',
+    'Process Now',
+    'btn-accent'
+  );
+  if (!confirmed) return;
+
   const btn = document.getElementById('process-btn');
   const globalBtn = document.getElementById('global-process-btn');
   const dashBtn = document.getElementById('dash-process-btn');
@@ -940,7 +1186,7 @@ async function processInbox() {
           </div>
           <div style="font-size:12px;color:var(--fg-subtle);margin-bottom:6px"><strong>Subject:</strong> ${r.subject || '—'}</div>
           <div style="font-size:13px;color:var(--fg-muted);margin-bottom:8px;font-style:italic">"${(r.question||'').slice(0,120)}${(r.question||'').length>120?'…':''}"</div>
-          ${r.status === 'sent' ? `<div style="font-size:12.5px;color:var(--green-deep);font-weight:500">✓ Reply sent to ${r.sender}</div>` : ''}
+          ${r.status === 'sent' ? `<div style="font-size:12.5px;color:var(--primary-deep);font-weight:500">✓ Reply sent to ${r.sender}</div>` : ''}
           ${r.status === 'pending_review' ? `<div style="font-size:12.5px;color:#92400e;font-weight:500">Draft saved — go to Review Drafts to approve and send</div>` : ''}
           ${r.error ? `<div style="color:var(--red);font-size:12px;margin-top:6px">⚠ ${r.error}</div>` : ''}
         </div>`).join('');
@@ -951,7 +1197,8 @@ async function processInbox() {
   finally {
     [btn, globalBtn, dashBtn].forEach(b => {
       if (!b) return;
-      if (b.id === 'process-btn' || b.id === 'dash-process-btn') { b.disabled = false; b.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Process Inbox Now'; }
+      if (b.id === 'process-btn') { b.disabled = false; b.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Process Inbox Now'; }
+      if (b.id === 'dash-process-btn') { b.disabled = false; b.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Process Inbox Now →'; }
       if (b.id === 'global-process-btn') { b.disabled = false; b.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Process Inbox'; }
     });
   }
@@ -978,7 +1225,7 @@ async function loadDrafts() {
         <div class="draft-a">${d.proposed_answer}</div>
         ${d.sources?.length ? `<div class="draft-sources">Sources: ${d.sources.join(', ')}</div>` : ''}
         <div class="draft-actions">
-          <button class="btn btn-ghost-green btn-sm" onclick="openApproveModal(${d.id}, \`${d.question.replace(/`/g,"'")}\`, \`${d.proposed_answer.replace(/`/g,"'")}\`)">✓ Approve &amp; Send</button>
+          <button class="btn btn-ghost-primary btn-sm" onclick="openApproveModal(${d.id}, \`${d.question.replace(/`/g,"'")}\`, \`${d.proposed_answer.replace(/`/g,"'")}\`)">✓ Approve &amp; Send</button>
           <button class="btn btn-danger btn-sm" onclick="quickReject(${d.id})">✕ Reject</button>
         </div>
       </div>`).join('');
@@ -1006,7 +1253,8 @@ async function submitApprove() {
 }
 
 async function submitReject() {
-  const note = prompt('Rejection reason (optional):') || '';
+  const note = await showRejectDialog();
+  if (note === null) return;
   try {
     await api('POST', `/drafts/${activeDraftId}/reject`, {note});
     toast('Draft rejected');
@@ -1016,7 +1264,8 @@ async function submitReject() {
 }
 
 async function quickReject(id) {
-  const note = prompt('Rejection reason (optional):') || '';
+  const note = await showRejectDialog();
+  if (note === null) return;
   try {
     await api('POST', `/drafts/${id}/reject`, {note});
     toast('Draft rejected');
@@ -1040,11 +1289,12 @@ async function loadAudit() {
     if (auditStatusFilter) params.set('status', auditStatusFilter);
     if (auditSenderFilter) params.set('sender', auditSenderFilter);
     const data = await api('GET', `/audit?${params}`);
+    _auditEntries = data.entries || [];
     const body = document.getElementById('audit-body');
-    if (!data.entries.length) {
+    if (!_auditEntries.length) {
       body.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="empty-icon">📋</div><div class="empty-text">No entries found</div></div></td></tr>`;
     } else {
-      body.innerHTML = data.entries.map(e => `<tr>
+      body.innerHTML = _auditEntries.map((e, i) => `<tr onclick="openAuditDetail(${i})" style="cursor:pointer">
         <td style="font-size:12px;color:var(--fg-subtle);white-space:nowrap">${new Date(e.timestamp).toLocaleString()}</td>
         <td style="font-size:13px">${e.sender}</td>
         <td style="font-size:13px;max-width:280px">${(e.question||'').slice(0,80)}${(e.question||'').length>80?'…':''}</td>
@@ -1057,6 +1307,29 @@ async function loadAudit() {
     document.getElementById('audit-prev').disabled = auditOffset === 0;
     document.getElementById('audit-next').disabled = showing >= data.total;
   } catch(e) { toast(e.message, 'error'); }
+}
+
+function openAuditDetail(idx) {
+  const e = _auditEntries[idx];
+  if (!e) return;
+  document.getElementById('audit-detail-body').innerHTML = `
+    <div class="form-group">
+      <label style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-subtle)">From</label>
+      <p style="font-size:13.5px;color:var(--fg)">${e.sender}</p>
+    </div>
+    <div class="form-group">
+      <label style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-subtle)">Time</label>
+      <p style="font-size:13.5px;color:var(--fg)">${new Date(e.timestamp).toLocaleString()}</p>
+    </div>
+    <div class="form-group">
+      <label style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-subtle)">Question</label>
+      <div style="font-size:13.5px;color:var(--fg);background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;padding:12px;line-height:1.6;max-height:160px;overflow-y:auto;white-space:pre-wrap">${(e.question||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <div><label style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-subtle);display:block;margin-bottom:6px">Status</label>${statusChip(e.status)}</div>
+      ${e.validation ? `<div><label style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-subtle);display:block;margin-bottom:6px">Validation</label>${validChip(e.validation)}</div>` : ''}
+    </div>`;
+  document.getElementById('audit-detail-modal').classList.add('open');
 }
 
 // ── Settings helpers ───────────────────────────────────────────────
@@ -1074,22 +1347,26 @@ function newChatSession() {
   return 'chat-' + Date.now().toString(36) + '-' + Math.random().toString(36).substr(2, 9);
 }
 
+function useSuggestion(text) {
+  const input = document.getElementById('chat-input');
+  if (!input) return;
+  input.value = text;
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  sendChatMessage();
+}
+
 function handleChatKey(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); }
 }
 
 function mdToHtml(text) {
-  // Escape HTML, then convert minimal markdown
   let h = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  // Bold, italic
   h = h.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
   h = h.replace(/\*(.+?)\*/g,'<em>$1</em>');
-  // Source citations — styled inline
   h = h.replace(/\[Source:\s*([^\]]+)\]/g,'<span class="chat-citation">[Source: $1]</span>');
-  // Bullet lists
   h = h.replace(/^[-•]\s+(.+)$/gm,'<li>$1</li>');
   h = h.replace(/(<li>[\s\S]*?<\/li>)/g,'<ul>$1</ul>');
-  // Paragraphs
   h = h.split(/\n\n+/).map(p => p.trim() ? `<p>${p.replace(/\n/g,'<br>')}</p>` : '').join('');
   return h;
 }
@@ -1107,7 +1384,7 @@ function appendTypingIndicator() {
   const msgs = document.getElementById('chat-messages');
   const el = document.createElement('div');
   el.className = 'chat-msg'; el.id = 'chat-typing-indicator';
-  el.innerHTML = `<div class="chat-avatar">M</div><div class="chat-typing"><div class="chat-dot"></div><div class="chat-dot"></div><div class="chat-dot"></div></div>`;
+  el.innerHTML = `${musterAvatar()}<div class="chat-typing"><div class="chat-dot"></div><div class="chat-dot"></div><div class="chat-dot"></div></div>`;
   msgs.appendChild(el);
   msgs.scrollTop = msgs.scrollHeight;
 }
@@ -1125,7 +1402,7 @@ function appendAssistantBubble(answer, sources) {
     : '';
   const el = document.createElement('div');
   el.className = 'chat-msg';
-  el.innerHTML = `<div class="chat-avatar">M</div><div><div class="chat-bubble chat-bubble-assistant">${mdToHtml(answer)}${sourceChips}</div></div>`;
+  el.innerHTML = `${musterAvatar()}<div><div class="chat-bubble chat-bubble-assistant">${mdToHtml(answer)}${sourceChips}</div></div>`;
   msgs.appendChild(el);
   msgs.scrollTop = msgs.scrollHeight;
 }
@@ -1157,6 +1434,7 @@ async function sendChatMessage() {
 function startNewChatConversation() {
   api('DELETE', `/chat/${chatSessionId}`).catch(() => {});
   chatSessionId = newChatSession();
+  _chatMessages = null;
   if (currentPage === 'chat') pages.chat();
 }
 
@@ -1171,7 +1449,7 @@ style.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:ro
 document.head.appendChild(style);
 
 // ── Init ───────────────────────────────────────────────────────────
-window._publicBase = window.location.origin; // default; overridden below if ngrok active
+window._publicBase = window.location.origin;
 fetch('/health').then(r=>r.json()).then(d=>{ if(d.public_base_url) window._publicBase = d.public_base_url; }).catch(()=>{});
 
 if (getToken()) {

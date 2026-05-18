@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Muster — HR Policy Assistant</title>
+  <title>Muster — Veridas</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 38'%3E%3Ccircle cx='14' cy='22' r='10' fill='%23485BC8'/%3E%3Ccircle cx='26' cy='16' r='13' fill='%23485BC8'/%3E%3Ccircle cx='38' cy='22' r='10' fill='%23485BC8'/%3E%3Crect x='4' y='22' width='44' height='14' rx='2' fill='%23485BC8'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -329,7 +329,7 @@
     <div class="nav-section">Chat</div>
     <button class="nav-item" onclick="navigate('chat', this)">
       <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-      Chat Assistant
+      Veridas
     </button>
 
     <div class="nav-section">Review</div>
@@ -609,7 +609,7 @@ function navigate(page, el) {
     dashboard: ['Overview', 'Dashboard'],
     documents: ['Knowledge Base', 'Upload Policy Documents'],
     inbox: ['Email', 'Process Inbox'],
-    chat: ['Chat', 'HR Policy Assistant'],
+    chat: ['Chat', 'Veridas'],
     drafts: ['Review', 'Review Drafts'],
     audit: ['Review', 'Audit Log'],
     settings: ['System', 'Settings'],
@@ -975,7 +975,7 @@ const pages = {
         ${musterAvatar()}
         <div>
           <div class="chat-bubble chat-bubble-assistant">
-            <p>Hi! I'm your HR Policy Assistant. Ask me anything about leave, remote work, expenses, benefits, or any other HR policy topic.</p>
+            <p>Hi! I'm Veridas, your HR policy assistant. Ask me anything about leave, remote work, expenses, benefits, or any other policy topic.</p>
           </div>
           <div class="chat-suggestions">
             ${suggestions.map(s => `<button class="suggestion-chip" onclick="useSuggestion(this.textContent)">${s}</button>`).join('')}

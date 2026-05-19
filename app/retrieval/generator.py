@@ -114,7 +114,7 @@ def generate_answer(
     context = _format_context(chunks)
     response = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=1024,
+        max_tokens=600,
         system=[
             {
                 "type": "text",

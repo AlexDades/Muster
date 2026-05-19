@@ -127,7 +127,7 @@ Muster is a SaaS product sold to corporations. It connects to a company's HR inb
 - In-memory session history: last 10 Q&A pairs per session, thread-safe
 - `POST /chat/message`, `DELETE /chat/{session_id}`
 
-### Phase 9 — Onboarding Policy Sequences  ⬤ In Progress
+### Phase 9 — Onboarding Policy Sequences  ✓ Complete
 HR creates named sequences of policy documents, each with a day offset from a start date. Employees are enrolled with a start date. A background job checks daily and sends the scheduled document emails via Gmail SMTP.
 
 **Data model:**
@@ -141,7 +141,7 @@ HR creates named sequences of policy documents, each with a day offset from a st
 - `app/email_utils.py` — shared `send_email(to, subject, body)` utility wrapping Gmail SMTP
 - `app/api/onboarding.py` — FastAPI router
 
-### Phase 10 — Policy Versioning & Update Alerts  ⬤ In Progress
+### Phase 10 — Policy Versioning & Update Alerts  ✓ Complete
 SQLite tracks a version number per document. When a new file is uploaded with the same name, the version increments. HR can then send a notification email to a list of recipients informing them of the update.
 
 **Data model:**
@@ -179,7 +179,7 @@ Set `NGROK_AUTH_TOKEN` in `.env`. On startup, a tunnel is opened and `settings.p
 | Variable | Default | Description |
 |---|---|---|
 | `ANTHROPIC_API_KEY` | — | Required for answer generation |
-| `MUSTER_API_KEY` | — | API key for dashboard login (e.g. `Log0!log` in `.env`) |
+| `MUSTER_API_KEY` | — | API key for dashboard login (e.g. `AlexDades` in `.env`) |
 | `JWT_SECRET` | `change-me-in-production` | JWT signing secret |
 | `JWT_EXPIRY_HOURS` | `8` | Token lifetime |
 | `GMAIL_ADDRESS` | — | Gmail address used for send/receive |
@@ -288,15 +288,16 @@ SVG cloud mark (three overlapping circles + rounded rect) with horizontal docume
 - **Python compatibility:** Local venv is 3.9.6 — use `from __future__ import annotations` for union type hints (`str | Path` not native until 3.10)
 - **Circular imports:** `app/delivery/__init__.py` and `app/email_ingestion/__init__.py` are intentionally empty; `TYPE_CHECKING` guard used in `draft_store.py` for the `Email` annotation
 - **Prompt caching:** `cache_control: ephemeral` on system prompt in both generator and validator
+- **API cost optimisation:** validation agent uses `claude-haiku-4-5` (not Sonnet); email reply `max_tokens` capped at 600; classifier (`is_policy_question`) uses Haiku with `max_tokens=5`
 - **Validation agent:** separate Claude call returns `{valid, confidence, issues, reasoning}`; handles markdown-fenced JSON and unparseable responses
 - **Acknowledgment detection:** `len(body.strip()) < 120 and "?" not in body and gratitude_regex.match(body)` — matched emails are marked read and skipped
 - **GmailInbox:** stdlib only (`imaplib`, `smtplib`); App Password spaces stripped automatically; STARTTLS for SMTP; threading headers set for proper email threading
 
 ---
 
-## Build Status (as of 2026-05-18)
+## Build Status (as of 2026-05-19)
 
-Phases 1–8 complete. Phases 9–10 in progress.
+Phases 1–10 complete.
 
 | Phase | Description | Unit tests | Integration tests |
 |---|---|---|---|
@@ -308,6 +309,8 @@ Phases 1–8 complete. Phases 9–10 in progress.
 | 6 | Security (JWT, rate limiting, headers) | 21 | — |
 | 7 | Gmail integration | 25 | — |
 | 8 | Veridas chat assistant | 24 | — |
+| 9 | Onboarding policy sequences | — | — |
+| 10 | Policy versioning + update alerts | — | — |
 | **Total** | | **243** | **16** |
 
 ---

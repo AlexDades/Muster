@@ -30,7 +30,7 @@ def list_documents(store: PolicyStore = Depends(deps.get_policy_store)) -> list[
     version_store = VersionStore(db_path=settings.db_path)
     all_versions = version_store.get_all_latest()
     for doc in docs:
-        doc["version"] = all_versions.get(doc["id"], 1)
+        doc["version"] = all_versions.get(doc["doc_id"], 1)
     return docs
 
 
@@ -88,7 +88,7 @@ def notify_policy_update(
     store: PolicyStore = Depends(deps.get_policy_store),
 ) -> dict:
     docs = store.list_documents()
-    doc = next((d for d in docs if d["id"] == doc_id), None)
+    doc = next((d for d in docs if d["doc_id"] == doc_id), None)
     if not doc:
         raise HTTPException(status_code=404, detail="Document not found.")
 

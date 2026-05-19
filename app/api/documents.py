@@ -60,7 +60,7 @@ def upload_document(
     result = index_document(dest, store=store)
     version_store = VersionStore(db_path=settings.db_path)
     version = version_store.record_upload(
-        doc_id=result["id"],
+        doc_id=result["doc_id"],
         filename=file.filename,
         chunks=result.get("chunks", 0),
     )

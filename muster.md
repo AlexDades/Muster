@@ -295,7 +295,7 @@ SVG cloud mark (three overlapping circles + rounded rect) with horizontal docume
 
 ---
 
-## Build Status (as of 2026-05-19)
+## Build Status (as of 2026-05-23)
 
 Phases 1–10 complete.
 
@@ -377,10 +377,121 @@ Muster/
 
 ---
 
+## Business Context
+
+### Positioning
+- Vertical SaaS sold directly to HR managers at SMBs (50–500 employees)
+- Core pitch: employees ask policy questions by email → Muster answers in under 60 seconds with citations
+- Secondary pitch: Veridas chat widget embedded in existing HR portals (sold separately as a lighter entry point)
+
+### Pricing (proposed)
+- £199/month flat for up to 200 employees — low enough for HR manager to approve without CFO sign-off
+- Alternative: £2–4 per employee per month (scales with company size, industry standard for HR SaaS)
+- API costs at current usage: ~£0.015–0.020 per email processed; £10–15/month per client at 500 interactions
+- Railway hosting: ~£5–10/month at small scale
+
+### Enterprise Upgrade Path (when client #2 appears)
+In this order — do not build ahead of demand:
+1. **Multi-tenancy** — isolated ChromaDB collection + SQLite DB per client. This is the single most important change; everything else builds on it.
+2. **Audit trail UI** — log every Q&A for compliance ("what did we tell John about paternity leave?")
+3. **Security hardening** — per-tenant API keys, RBAC, SSO/SAML
+4. **Infrastructure** — migrate SQLite → Postgres for concurrent multi-tenant writes; Sentry for error monitoring
+5. **Enterprise features** — white-labeling, usage analytics dashboard, Veridas widget embed
+
+---
+
+## Planned Next Features (People Section — Onboarding Module)
+
+Research conducted May 2026. Competitive analysis against BambooHR, Rippling, Workday, HiBob, Trainual, Zavvy, Leapsome, Xoralia, AirMason.
+
+### Planned Phase 11 — Onboarding Timeline Preview
+**Status:** Not started  
+**Competitive position:** Mild differentiator. Competitors (Workday, Zavvy) show admin-only live views but not a pre-enrolment preview.  
+**What it is:** Before clicking "Enrol", HR sees a visual day-by-day timeline of exactly what will be sent and when. Spots gaps ("nothing in week 3") or overloading ("three emails in one day") before it's too late.  
+**Why first:** Pure frontend, zero backend changes, lowest risk.  
+**Implementation:** Derive from existing sequence steps data (`GET /onboarding/sequences/{id}/steps`). Render a timeline card per step sorted by `day_offset`. No new API endpoints needed.  
+**New nav item:** People → Timeline Preview
+
+---
+
+### Planned Phase 12 — Role-Based Templates
+**Status:** Not started  
+**Competitive position:** Table stakes — BambooHR, Rippling, Trainual, Zavvy all have it. Muster's differentiator is AI doc-matching: pre-populate a role template by analysing which uploaded policies are relevant to that role.  
+**What it is:** Pre-built sequence templates by department (Engineering, Sales, Operations, etc.). HR picks a template, customises it, and enrolls. Much faster than building from scratch.  
+**Implementation:** New SQLite table `sequence_templates(id, name, role, description, steps_json)`. New API endpoints `GET/POST /onboarding/templates`. Seed with 3–5 default templates. AI layer: on template creation, Claude scans uploaded docs and suggests which to include.  
+**New nav item:** People → Templates
+
+---
+
+### Planned Phase 13 — AI Sequence Advisor
+**Status:** Not started  
+**Competitive position:** Strong first-mover. No competitor takes uploaded policy documents as input and generates a recommended day-by-day schedule from them.  
+**What it is:** HR clicks "Generate recommendation" → Claude analyses all uploaded policy documents and suggests a structured onboarding schedule: which documents to send, in what order, with recommended day offsets and rationale. HR approves or edits rather than building from scratch.  
+**Why it matters:** Every competitor assumes HR already knows what the sequence should be. Muster inverts this.  
+**Implementation:** New `POST /onboarding/sequences/recommend` endpoint. Claude call with system prompt + list of all uploaded doc titles/summaries + instruction to produce a JSON sequence plan. Result rendered as an editable draft sequence in the UI.  
+**New nav item:** People → AI Advisor  
+**Risk:** New Claude API call (cost + latency). Run on demand only, not automatically.
+
+---
+
+### Planned Phase 14 — Employee Progress Tracker
+**Status:** Not started  
+**Competitive position:** Progress tracking is table stakes (BambooHR, Rippling, Trainual, HiBob all have it). The lightweight in-email "I've read this ✓" confirmation link is less common and more elegant than forcing employees to log into an HR portal.  
+**What it is:** HR dashboard shows each enrolled employee's journey — steps sent, steps upcoming, and whether the employee clicked the confirmation link. Each onboarding email includes a one-click "I've read this ✓" link.  
+**Differentiator angle:** Add a Claude-generated 2-question micro-quiz per document delivered in the same email. No competitor does comprehension-checking today.  
+**Implementation:**  
+- Add `confirmed_at` column to `enrollment_deliveries` table  
+- New `GET /onboarding/confirm/{token}` public endpoint (no auth) that marks delivery confirmed  
+- Generate a signed token per delivery; embed in outgoing email  
+- New UI page showing per-employee progress grid  
+**New nav item:** People → Progress Tracker  
+**Risk:** Touches live onboarding poller and email sending logic — test thoroughly before shipping.
+
+---
+
+### Planned Phase 15 — Smart Email Summaries (Biggest Differentiator)
+**Status:** Not started  
+**Competitive position:** Strong moat — no named competitor does this. BambooHR "Ask BambooHR" is reactive (employee asks). Muster is proactive (AI reads the doc and sends the brief).  
+**What it is:** Each onboarding step email includes a Claude-generated 3-bullet plain-English summary of the key points from that policy document — written in a friendly tone, addressed to the employee by name. New hires get something readable alongside the full document link.  
+**Why it's the moat:** Muster already has the document indexed at upload time. Generating a summary is a near-zero-cost extension. Competitors would have to rebuild their document ingestion pipeline to replicate it.  
+**Core pitch:** "Every HR tool sends new hires a PDF and hopes for the best. Muster sends them a human-readable brief, written by AI from your actual policy, in the same email."  
+**Implementation:**  
+- At document upload time (or on first sequence step use), generate and cache a 3-bullet summary via Claude (`claude-haiku-4-5` to keep cost low)  
+- Store in new `document_summaries(doc_id, summary_text, generated_at)` SQLite table  
+- Inject summary into outgoing onboarding step emails above the document link  
+- UI: show cached summary in document list; "Regenerate" button  
+**New nav item:** People → Smart Emails (settings/preview page)  
+**Risk:** Highest risk — touches document upload pipeline AND live onboarding email sending. Implement last.
+
+---
+
+### Implementation Order (safest to riskiest)
+| Phase | Feature | Risk | New backend? | Estimated effort |
+|---|---|---|---|---|
+| 11 | Timeline Preview | Low | No | 1 session |
+| 12 | Role Templates | Low | Simple CRUD | 1–2 sessions |
+| 13 | AI Advisor | Medium | 1 Claude endpoint | 1 session |
+| 14 | Progress Tracker | Medium | DB column + token endpoint | 2 sessions |
+| 15 | Smart Email Summaries | High | Touches upload + poller | 2–3 sessions |
+
+### Nav structure when complete (People section)
+```
+People
+├── Onboarding        (Phase 9 — complete)
+├── Timeline Preview  (Phase 11)
+├── Templates         (Phase 12)
+├── AI Advisor        (Phase 13)
+├── Progress Tracker  (Phase 14)
+└── Smart Emails      (Phase 15)
+```
+
+---
+
 ## Open Questions
 
 1. Multi-tenancy: one ChromaDB collection per client, or namespace within shared DB?
 2. Pricing enforcement: usage metering per reply?
 3. Chunking: currently fixed-size (500 words, 50-word overlap); consider semantic chunking by section headers
-4. Phase 9: background job cadence — daily cron or on-demand check at each poll cycle?
-5. Phase 10: version bump on filename match, or explicit HR action?
+4. People nav: flat list of 6 items, or collapsible group?
+5. Smart Email Summaries: generate at upload time (stored, instant) or at send time (fresh per employee)?
+6. Progress Tracker: simple click confirmation, or add Claude-generated micro-quiz for comprehension checking?
